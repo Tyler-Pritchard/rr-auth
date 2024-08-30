@@ -13,13 +13,13 @@ router.post('/register', async (req, res) => {
 
   try {
     // Verify CAPTCHA
-    const captchaResponse = await axios.post(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${SECRET_KEY}&response=${captchaToken}`
-    );
+    // const captchaResponse = await axios.post(
+    //   `https://www.google.com/recaptcha/api/siteverify?secret=${SECRET_KEY}&response=${captchaToken}`
+    // );
 
-    if (!captchaResponse.data.success) {
-      return res.status(400).json({ msg: 'CAPTCHA verification failed' });
-    }
+    // if (!captchaResponse.data.success) {
+    //   return res.status(400).json({ msg: 'CAPTCHA verification failed' });
+    // }
 
     // Check if the user already exists
     let user = await User.findOne({ email });
