@@ -93,4 +93,53 @@ router.post('/login', async (req, res) => {
   });
   
 
+// @route   POST /api/users/forgot-password
+// @desc    Send email with password reset link
+// @access  Public
+router.post('/forgot-password', async (req, res) => {
+    const { email } = req.body;
+  
+    try {
+      let user = await User.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ msg: 'No account with that email found' });
+      }
+  
+      const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+  
+      // Ideally send an email with this resetToken to the user
+      // For now, we'll just return it in the response
+      res.json({ resetToken });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+});
+
+
+// @route   POST /api/users/reset-password
+// @desc    Reset password using token
+// @access  Public
+router.post('/reset-password', async (req, res) => {
+    const { token, newPassword } = req.body;
+  
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      let user = await User.findById(decoded.id);
+      if (!user) {
+        return res.status(400).json({ msg: 'Invalid token' });
+      }
+  
+      user.password = await bcrypt.hash(newPassword, 10);
+      await user.save();
+  
+      res.json({ msg: 'Password reset successful' });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+});
+  
+  
+
 module.exports = router;
