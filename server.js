@@ -33,20 +33,19 @@ const app = express();
 // Enable trust proxy
 app.set('trust proxy', 1);
 
-// Enable CORS for requests from http://localhost:3000, prod
+// Enable CORS for requests from specified origins
 const allowedOrigins = ['http://localhost:3000', 'https://www.robrich.band'];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', allowedOrigins.join(','));
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  next();
-});
 
 app.use(express.json());
 app.use(
