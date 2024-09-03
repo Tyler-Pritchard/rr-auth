@@ -13,19 +13,18 @@ const userRoutes = require('./routes/userRoutes');
 dotenv.config();
 
 // Decode Base64 string to JSON
-const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
-const jsonCredentials = Buffer.from(base64Credentials, 'base64').toString('utf8');
+if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
+  const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
+  const jsonCredentials = Buffer.from(base64Credentials, 'base64').toString('utf8');
 
-// Write JSON to a temporary file
-const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
-fs.writeFileSync(tempFilePath, jsonCredentials);
+  // Write JSON to a temporary file
+  const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
+  fs.writeFileSync(tempFilePath, jsonCredentials);
 
-// Set the environment variable to the path of the temporary file
-process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
-
-// check for google credentials in .env
-if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-  console.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS environment variable is not set.");
+  // Set the environment variable to the path of the temporary file
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
+} else {
+  console.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is not set.");
   process.exit(1);
 }
 
