@@ -35,7 +35,7 @@ app.set('trust proxy', 1);
 
 // Enable CORS for requests from http://localhost:3000
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://www.robrich.band'],
   credentials: true,
 }));
 
