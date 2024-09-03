@@ -7,52 +7,82 @@ const authLimiter = require('../middleware/authLimiter');
 const Joi = require('joi');
 const User = require('../models/User');
 const router = express.Router();
+const {RecaptchaEnterpriseServiceClient} = require('@google-cloud/recaptcha-enterprise');
 
 const SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
+const PROJECT_ID = 'rr-auth-1725047695006';
+const recaptchaSiteKey = '6LfU8jIqAAAAAOAFm-eNXmW-uPrxqdH9xJLEfJ7R';
+
+// Initialize reCAPTCHA client
+const recaptchaClient = new RecaptchaEnterpriseServiceClient();
+
+async function verifyRecaptchaToken(token) {
+  const projectPath = recaptchaClient.projectPath(PROJECT_ID);
+
+  // Build the assessment request.
+  const request = {
+    assessment: {
+      event: {
+        token: token,
+        siteKey: recaptchaSiteKey,
+      },
+    },
+    parent: projectPath,
+  };
+
+  const [response] = await recaptchaClient.createAssessment(request);
+
+  // Check if the token is valid.
+  if (!response.tokenProperties.valid) {
+    console.log(`The CreateAssessment call failed because the token was: ${response.tokenProperties.invalidReason}`);
+    return null;
+  }
+
+  // Return the risk score
+  return response.riskAnalysis.score;
+}
 
 // @route   POST /api/users/register
 // @desc    Register a new user
 // @access  Public
 router.post('/register', authLimiter, async (req, res) => {
-    const { error } = registerSchema.validate(req.body);
-    if (error) return res.status(400).json({ msg: error.details[0].message });
-  
-    const { firstName, lastName, username, email, password, dateOfBirth, country, captchaToken } = req.body;
+  const { error } = registerSchema.validate(req.body);
+  if (error) return res.status(400).json({ msg: error.details[0].message });
 
-    try {
-        // Verify CAPTCHA
-        // const captchaResponse = await axios.post(
-        //   `https://www.google.com/recaptcha/api/siteverify?secret=${SECRET_KEY}&response=${captchaToken}`
-        // );
+  const { firstName, lastName, username, email, password, dateOfBirth, country, captchaToken } = req.body;
 
-        // if (!captchaResponse.data.success) {
-        //   return res.status(400).json({ msg: 'CAPTCHA verification failed' });
-        // }
+  try {
+    // Verify CAPTCHA
+    const recaptchaScore = await verifyRecaptchaToken(captchaToken);
 
-        // Check if the user already exists
-        let user = await User.findOne({ email });
-        if (user) {
-        return res.status(400).json({ msg: 'User already exists' });
-        }
-
-        // Create a new user
-        user = new User({
-            firstName,
-            lastName,
-            username,
-            email,
-            password,
-            dateOfBirth,
-            country,
-        });
-
-        await user.save();
-
-        res.status(201).json({ msg: 'User registered successfully' });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Server error');
+    if (recaptchaScore === null || recaptchaScore < 0.5) {
+      return res.status(400).json({ msg: 'CAPTCHA verification failed' });
     }
+
+    // Check if the user already exists
+    let user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ msg: 'User already exists' });
+    }
+
+    // Create a new user
+    user = new User({
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      dateOfBirth: new Date(dateOfBirth),
+      country,
+    });
+
+    await user.save();
+
+    res.status(201).json({ msg: 'User registered successfully' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
 });
 
 
