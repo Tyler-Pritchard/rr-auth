@@ -33,9 +33,10 @@ const app = express();
 // Enable trust proxy
 app.set('trust proxy', 1);
 
-// Enable CORS for requests from http://localhost:3000
+// Enable CORS for requests from http://localhost:3000, prod
+const allowedOrigins = ['http://localhost:3000', 'https://www.robrich.band'];
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://www.robrich.band'],
+  origin: allowedOrigins,
   credentials: true,
 }));
 
