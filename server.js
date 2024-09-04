@@ -31,18 +31,38 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
 const app = express();
 
 // Enable CORS for requests from specified origins
-const allowedOrigins = ['http://localhost:3000', 'https://www.robrich.band'];
+// const allowedOrigins = ['http://localhost:3000'];  // dev
+const allowedOrigins = ['https://www.robrich.band'];  // prod
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', allowedOrigins);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    return res.status(200).json({});
+  }
+  next();
+});
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', allowedOrigins);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    return res.status(200).json({});
+  }
+  next();
+});
 
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      // Allow access from allowed origins or requests with no origin (like server-side or preflight requests)
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true, // Allow credentials if needed
+  credentials: true, // Allow credentials
 }));
 
 // Enable trust proxy
