@@ -32,32 +32,22 @@ const app = express();
 
 // Enable CORS for requests from specified origins
 // const allowedOrigins = ['http://localhost:3000'];  // dev
-const allowedOrigins = [ 'rrsite-gephaoaft-tylers-projects-06089682.vercel.app', 'http://localhost:3000', 'https://www.robrich.band'];  // prod
+const allowedOrigins = [ 'https://rrsite-git-main-tylers-projects-06089682.vercel.app', 'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app', 'https://www.robrich.band'];  // prod
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);  // Allow access from allowed origins
+    // Allow requests with no origin (e.g., Postman, server-to-server requests) or allowed origins
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true,  // Allow credentials
+  credentials: true, // Allow credentials if needed
 }));
 
 // This line ensures that preflight OPTIONS requests are handled correctly
 app.options('*', cors());
-
-app.use(express.json());
-
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com"],
-    },
-  })
-);
 
 // Enable trust proxy
 app.set('trust proxy', 1);
