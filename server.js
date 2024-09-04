@@ -36,7 +36,7 @@ const allowedOrigins = ['http://localhost:3000', 'https://www.robrich.band'];
 app.use(cors({
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
+      callback(null, false);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
@@ -47,7 +47,7 @@ app.use(cors({
 app.options('*', cors({
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
+      callback(null, false);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
