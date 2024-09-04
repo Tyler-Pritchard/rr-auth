@@ -35,13 +35,25 @@ const allowedOrigins = ['http://localhost:3000', 'https://www.robrich.band'];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, false);
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      // Allow access from allowed origins or requests with no origin (like server-side or preflight requests)
+      callback(null, origin);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: false,
+  credentials: true, // Allow credentials if needed
+}));
+
+app.options('*', cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, origin);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
 
 app.options('*', cors({
