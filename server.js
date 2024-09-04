@@ -42,7 +42,7 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: false, // Allow credentials if needed
+  credentials: true, // Allow credentials if needed
 }));
 
 // Enable trust proxy
