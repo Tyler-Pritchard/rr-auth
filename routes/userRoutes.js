@@ -57,9 +57,9 @@ router.post('/register', authLimiter, async (req, res) => {
     // Verify CAPTCHA
     const recaptchaScore = await verifyRecaptchaToken(captchaToken);
 
-    if (recaptchaScore === null || recaptchaScore < 0.5) {
-      return res.status(400).json({ msg: 'CAPTCHA verification failed' });
-    }
+    // if (recaptchaScore === null || recaptchaScore < 0.5) {
+    //   return res.status(400).json({ msg: 'CAPTCHA verification failed' });
+    // }
 
     // Check if the user already exists
     let user = await User.findOne({ email });
