@@ -34,29 +34,27 @@ const app = express();
 // const allowedOrigins = ['http://localhost:3000'];  // dev
 const allowedOrigins = ['https://www.robrich.band'];  // prod
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin); // Set the specific origin that matches
-  }
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-    return res.status(200).json({});
-  }
-  next();
-});
-
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);  // Allow access from allowed origins
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true, // Allow credentials
+  credentials: true,  // Allow credentials
 }));
+
+app.use(express.json());
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com"],
+    },
+  })
+);
 
 // Enable trust proxy
 app.set('trust proxy', 1);
