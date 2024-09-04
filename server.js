@@ -7,6 +7,9 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 
+// This line ensures that preflight OPTIONS requests are handled correctly
+app.options('*', cors());
+
 // Routes
 const userRoutes = require('./routes/userRoutes');
 
@@ -45,9 +48,6 @@ app.use(cors({
   },
   credentials: true, // Allow credentials if needed
 }));
-
-// This line ensures that preflight OPTIONS requests are handled correctly
-app.options('*', cors());
 
 // Enable trust proxy
 app.set('trust proxy', 1);
