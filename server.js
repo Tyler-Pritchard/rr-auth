@@ -7,12 +7,6 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 
-// This line ensures that preflight OPTIONS requests are handled correctly
-app.options('*', cors());
-
-// Routes
-const userRoutes = require('./routes/userRoutes');
-
 dotenv.config();
 
 // Decode Base64 string to JSON
@@ -33,6 +27,9 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
 
 const app = express();
 
+// This line ensures that preflight OPTIONS requests are handled correctly
+app.options('*', cors());
+
 // Enable CORS for requests from specified origins
 // const allowedOrigins = ['http://localhost:3000'];  // dev
 const allowedOrigins = [ 'https://rrsite-git-main-tylers-projects-06089682.vercel.app', 'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app', 'https://www.robrich.band'];  // prod
@@ -51,6 +48,9 @@ app.use(cors({
 
 // Enable trust proxy
 app.set('trust proxy', 1);
+
+// Routes
+const userRoutes = require('./routes/userRoutes');
 
 app.use(express.json());
 
