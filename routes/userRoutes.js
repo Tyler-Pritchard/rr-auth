@@ -55,7 +55,7 @@ router.post('/register', authLimiter, async (req, res) => {
   // console.log("CAPTCHA TOKEN: ", captchaToken)
   try {
     // Verify CAPTCHA
-    const recaptchaScore = await verifyRecaptchaToken(captchaToken);
+    // const recaptchaScore = await verifyRecaptchaToken(captchaToken);
 
     // if (recaptchaScore === null || recaptchaScore < 0.5) {
     //   return res.status(400).json({ msg: 'CAPTCHA verification failed' });

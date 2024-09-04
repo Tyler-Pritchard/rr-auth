@@ -9,7 +9,7 @@ const registerSchema = Joi.object({
   password: Joi.string().min(6).required(),
   dateOfBirth: Joi.date().required(),
   country: Joi.string().min(2).required(),
-  captchaToken: Joi.string().required(),
+  // captchaToken: Joi.string().required(),
 });
 
 // User login validation schema
