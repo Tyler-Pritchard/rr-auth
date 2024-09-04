@@ -46,6 +46,23 @@ app.use(cors({
   credentials: true, // Allow credentials if needed
 }));
 
+// Middleware to handle preflight requests and set necessary CORS headers
+app.use((req, res, next) => {
+  // Set headers for all requests
+  res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // Allow your frontend domain
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
+  res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials (cookies)
+
+  // If the request is a preflight request (OPTIONS), return a 200 status
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+
+  // Pass to next middleware or route handler
+  next();
+});
+
 // Enable trust proxy
 app.set('trust proxy', 1);
 
