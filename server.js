@@ -30,9 +30,6 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
 
 const app = express();
 
-// Enable trust proxy
-app.set('trust proxy', 1);
-
 // Enable CORS for requests from specified origins
 const allowedOrigins = ['http://localhost:3000', 'https://www.robrich.band'];
 
@@ -57,6 +54,9 @@ app.options('*', cors({
   },
   credentials: true,
 }));
+
+// Enable trust proxy
+app.set('trust proxy', 1);
 
 app.use(express.json());
 
