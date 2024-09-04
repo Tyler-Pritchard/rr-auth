@@ -32,7 +32,7 @@ const app = express();
 
 // Enable CORS for requests from specified origins
 // const allowedOrigins = ['http://localhost:3000'];  // dev
-const allowedOrigins = ['https://www.robrich.band'];  // prod
+const allowedOrigins = [ 'rrsite-gephaoaft-tylers-projects-06089682.vercel.app', 'http://localhost:3000', 'https://www.robrich.band'];  // prod
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -44,6 +44,9 @@ app.use(cors({
   },
   credentials: true,  // Allow credentials
 }));
+
+// This line ensures that preflight OPTIONS requests are handled correctly
+app.options('*', cors());
 
 app.use(express.json());
 
