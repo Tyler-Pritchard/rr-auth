@@ -49,7 +49,7 @@ app.use(cors({
 // Middleware to handle preflight requests and set necessary CORS headers
 app.use((req, res, next) => {
   console.log('Incoming request:', req.method, req.path);
-  next();
+
   // Set headers for all requests
   res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // Allow your frontend domain
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
