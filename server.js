@@ -17,7 +17,7 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
   // Write JSON to a temporary file
   const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
   fs.writeFileSync(tempFilePath, jsonCredentials);
-  console.log("CREDENTIALS: ", jsonCredentials);
+  // console.log("CREDENTIALS: ", jsonCredentials);
 
   // Set the environment variable to the path of the temporary file
   process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
