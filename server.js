@@ -52,8 +52,8 @@ app.use((req, res, next) => {
   console.log('Incoming request:', req.method, req.path);
 
   // Set headers for all requests
-  // res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // Allow your frontend domain
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Allow your frontend domain
+  res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // Allow your frontend domain
+  //res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Allow your frontend domain
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
   res.header('Access-Control-Allow-Credentials', 'false'); // Allow credentials (cookies)
