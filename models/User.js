@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  captchaToken: {
+    type: String,
+    required: true,
+  },
 });
 
 userSchema.index({ email: 1 }); // Ensures faster queries on the email field

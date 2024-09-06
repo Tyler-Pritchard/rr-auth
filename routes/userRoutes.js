@@ -17,9 +17,9 @@ const recaptchaSiteKey = '6LfU8jIqAAAAAOAFm-eNXmW-uPrxqdH9xJLEfJ7R';
 const recaptchaClient = new RecaptchaEnterpriseServiceClient();
 
 async function verifyRecaptchaToken(token) {
+
   const projectPath = recaptchaClient.projectPath(PROJECT_ID);
-  // TEST CAPTCHA DISABLE FOR PROD
-  // console.log("CAPTCHA TOKEN: ", token)
+
   // Build the assessment request.
   const request = {
     assessment: {
@@ -65,7 +65,7 @@ router.post('/register', authLimiter, async (req, res) => {
 
   const { firstName, lastName, username, email, password, dateOfBirth, country, captchaToken } = req.body;
   // TEST CAPTCHA DISABLE FOR PROD
-  // console.log("CAPTCHA TOKEN: ", captchaToken)
+  // console.log("CAPTCHA TOKEN in POST: ", captchaToken)
   try {
     // Verify CAPTCHA
     const recaptchaScore = await verifyRecaptchaToken(captchaToken);
