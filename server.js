@@ -17,7 +17,7 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
   // Write JSON to a temporary file
   const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
   fs.writeFileSync(tempFilePath, jsonCredentials);
-  // console.log("CREDENTIALS: ", jsonCredentials);
+  console.log("CREDENTIALS: ", jsonCredentials);
 
   // Set the environment variable to the path of the temporary file
   process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
@@ -27,9 +27,6 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
 }
 
 const app = express();
-
-// This line ensures that preflight OPTIONS requests are handled correctly
-app.options('*', cors());
 
 // Enable CORS for requests from specified origins
 // const allowedOrigins = process.env.NODE_ENV === 'production' ? [ 'https://rrsite-git-main-tylers-projects-06089682.vercel.app', 'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app', 'https://www.robrich.band'] : ['http://localhost:3000'];
@@ -44,7 +41,7 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: false,
+  credentials: true,
 }));
 
 // Middleware to handle preflight requests and set necessary CORS headers
@@ -56,7 +53,7 @@ app.use((req, res, next) => {
   //res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Allow your frontend domain
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
-  res.header('Access-Control-Allow-Credentials', 'false'); // Allow credentials (cookies)
+  res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials (cookies)
 
   // If the request is a preflight request (OPTIONS), return a 200 status
   if (req.method === 'OPTIONS') {
