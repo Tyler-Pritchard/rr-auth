@@ -43,6 +43,19 @@ async function verifyRecaptchaToken(token) {
   return response.riskAnalysis.score;
 }
 
+// @route   GET /api/users/count
+// @desc    Get total number of registered users
+// @access  Public
+router.get('/count', async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    res.status(200).json({ totalUsers: userCount });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   POST /api/users/register
 // @desc    Register a new user
 // @access  Public

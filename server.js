@@ -32,8 +32,8 @@ const app = express();
 app.options('*', cors());
 
 // Enable CORS for requests from specified origins
-// const allowedOrigins = ['http://localhost:3000'];  // dev
-const allowedOrigins = [ 'https://rrsite-git-main-tylers-projects-06089682.vercel.app', 'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app', 'https://www.robrich.band'];  // prod
+// const allowedOrigins = process.env.NODE_ENV === 'production' ? [ 'https://rrsite-git-main-tylers-projects-06089682.vercel.app', 'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app', 'https://www.robrich.band'] : ['http://localhost:3000'];
+const allowedOrigins = process.env.NODE_ENV === 'production' ? ['https://www.robrich.band'] : ['http://localhost:3000'];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -52,7 +52,8 @@ app.use((req, res, next) => {
   console.log('Incoming request:', req.method, req.path);
 
   // Set headers for all requests
-  res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // Allow your frontend domain
+  // res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // Allow your frontend domain
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Allow your frontend domain
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
   res.header('Access-Control-Allow-Credentials', 'false'); // Allow credentials (cookies)
