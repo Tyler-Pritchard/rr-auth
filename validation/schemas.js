@@ -9,6 +9,7 @@ const registerSchema = Joi.object({
   password: Joi.string().min(6).required(),
   dateOfBirth: Joi.date().required(),
   country: Joi.string().min(2).required(),
+  isSubscribed: Joi.boolean().optional(),
   captchaToken: Joi.string().required(),
 });
 

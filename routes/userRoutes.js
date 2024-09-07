@@ -63,7 +63,7 @@ router.post('/register', authLimiter, async (req, res) => {
   const { error } = registerSchema.validate(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
-  const { firstName, lastName, username, email, password, dateOfBirth, country, captchaToken } = req.body;
+  const { firstName, lastName, username, email, password, dateOfBirth, country, isSubscribed, captchaToken } = req.body;
   // TEST CAPTCHA DISABLE FOR PROD
   // console.log("CAPTCHA TOKEN in POST: ", captchaToken)
   try {
@@ -89,6 +89,7 @@ router.post('/register', authLimiter, async (req, res) => {
       password,
       dateOfBirth: new Date(dateOfBirth),
       country,
+      isSubscribed,
       captchaToken
     });
 
