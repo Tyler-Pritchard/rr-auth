@@ -17,7 +17,7 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
   // Write JSON to a temporary file
   const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
   fs.writeFileSync(tempFilePath, jsonCredentials);
-  console.log("CREDENTIALS: ", jsonCredentials);
+  // console.log("CREDENTIALS: ", jsonCredentials);
 
   // Set the environment variable to the path of the temporary file
   process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
@@ -49,9 +49,9 @@ app.use((req, res, next) => {
   console.log('Incoming request:', req.method, req.path);
 
   // Set headers for all requests
-  //res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // Allow your frontend domain
-  //res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Allow your frontend domain
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // PUSH FOR PROD
+  // res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // DEVELOPMENT
+  // res.header('Access-Control-Allow-Origin', req.headers.origin || '*');  // RUN TESTS
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
   res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials (cookies)
@@ -66,9 +66,6 @@ app.use((req, res, next) => {
 
 // Enable trust proxy
 app.set('trust proxy', 1);
-
-// Routes
-const userRoutes = require('./routes/userRoutes');
 
 app.use(express.json());
 
@@ -89,17 +86,24 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
+// Conditionally connect to MongoDB only if not in test environment
+if (process.env.NODE_ENV !== 'test') {
+  mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
+}
+
+// Use the router
+const userRoutes = require('./routes/userRoutes');
 app.use('/api/users', userRoutes);
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
-
-// Define routes
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
+// App listening
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Export app for testing
+module.exports = app;

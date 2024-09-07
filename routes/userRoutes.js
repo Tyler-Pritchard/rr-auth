@@ -65,7 +65,7 @@ router.post('/register', authLimiter, async (req, res) => {
 
   const { firstName, lastName, username, email, password, dateOfBirth, country, captchaToken } = req.body;
   // TEST CAPTCHA DISABLE FOR PROD
-  console.log("CAPTCHA TOKEN in POST: ", captchaToken)
+  // console.log("CAPTCHA TOKEN in POST: ", captchaToken)
   try {
     // Verify CAPTCHA
     const recaptchaScore = await verifyRecaptchaToken(captchaToken);
@@ -100,7 +100,6 @@ router.post('/register', authLimiter, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
 
 // @route   POST /api/users/login
 // @desc    Authenticate user and get token
@@ -203,4 +202,5 @@ router.post('/reset-password', authLimiter, async (req, res) => {
   
   
 
-module.exports = router;
+module.exports = router; // Export only the router by default
+module.exports.verifyRecaptchaToken = verifyRecaptchaToken; // Export function for testing
