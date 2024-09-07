@@ -41,6 +41,11 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  rememberMe:
+  {
+    type: Boolean,
+    default: false,
+  },
   captchaToken: {
     type: String,
     required: true,

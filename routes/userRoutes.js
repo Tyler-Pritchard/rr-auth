@@ -65,7 +65,7 @@ router.post('/register', authLimiter, async (req, res) => {
 
   const { firstName, lastName, username, email, password, dateOfBirth, country, isSubscribed, captchaToken } = req.body;
   // TEST CAPTCHA DISABLE FOR PROD
-  // console.log("CAPTCHA TOKEN in POST: ", captchaToken)
+  console.log("CAPTCHA TOKEN in POST: ", captchaToken)
   try {
     // Verify CAPTCHA
     const recaptchaScore = await verifyRecaptchaToken(captchaToken);
