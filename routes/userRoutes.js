@@ -137,7 +137,7 @@ router.post('/login', authLimiter, async (req, res) => {
         id: user.id
       }
     };
-
+    console.log('JWT SECRET', process.env.JWT_SECRET)
     // Sign JWT and return it to the user
     jwt.sign(
       payload,
