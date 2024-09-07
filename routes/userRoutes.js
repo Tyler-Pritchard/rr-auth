@@ -106,39 +106,46 @@ router.post('/register', authLimiter, async (req, res) => {
 // @desc    Authenticate user and get token
 // @access  Public
 router.post('/login', authLimiter, async (req, res) => {
-    // Validate request data
+  // Validate request data
   const { error } = loginSchema.validate(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
   const { email, password } = req.body;
 
+  const recaptchaScore = await verifyRecaptchaToken(req.body.captchaToken);
+
+  if (recaptchaScore === null || recaptchaScore < 0.5) {
+    return res.status(400).json({ msg: 'CAPTCHA verification failed' });
+  }
+
   try {
     // Check for the user
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: 'Invalid Credentials' });
+      return res.status(400).json({ msg: 'Incorrect email or password' });
     }
 
     // Validate password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: 'Invalid Credentials' });
+      return res.status(400).json({ msg: 'Incorrect email or password' });
     }
 
-    // Return JWT
+    // Generate JWT payload
     const payload = {
       user: {
         id: user.id
       }
     };
 
+    // Sign JWT and return it to the user
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
       { expiresIn: '1h' },  // Token expires in 1 hour
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.status(200).json({ msg: 'Login successful', token });
       }
     );
   } catch (err) {
@@ -146,6 +153,7 @@ router.post('/login', authLimiter, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
   
 
 // @route   POST /api/users/forgot-password
