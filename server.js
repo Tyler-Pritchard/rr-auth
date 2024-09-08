@@ -104,6 +104,7 @@ app.get('/', (req, res) => {
 // App listening
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+console.log('All ENV VARIABLES:', process.env);
 
 // Export app for testing
 module.exports = app;
