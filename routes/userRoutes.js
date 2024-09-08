@@ -65,7 +65,7 @@ router.post('/register', authLimiter, async (req, res) => {
 
   const { firstName, lastName, username, email, password, dateOfBirth, country, isSubscribed, captchaToken } = req.body;
   // TEST CAPTCHA DISABLE FOR PROD
-  console.log("CAPTCHA TOKEN in POST: ", captchaToken)
+  // console.log("CAPTCHA TOKEN in POST: ", captchaToken)
   try {
     // Verify CAPTCHA
     const recaptchaScore = await verifyRecaptchaToken(captchaToken);
@@ -137,7 +137,7 @@ router.post('/login', authLimiter, async (req, res) => {
         id: user.id
       }
     };
-    console.log('JWT SECRET', process.env.JWT_SECRET)
+    // console.log('JWT SECRET', process.env.JWT_SECRET)
     // Sign JWT and return it to the user
     jwt.sign(
       payload,

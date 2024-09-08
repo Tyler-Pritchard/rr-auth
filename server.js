@@ -46,7 +46,7 @@ app.use(cors({
 
 // Middleware to handle preflight requests and set necessary CORS headers
 app.use((req, res, next) => {
-  console.log('Incoming request:', req.method, req.path);
+  // console.log('Incoming request:', req.method, req.path);
 
   // Set headers for all requests
   res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // PUSH FOR PROD
@@ -104,7 +104,7 @@ app.get('/', (req, res) => {
 // App listening
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-console.log('All ENV VARIABLES:', process.env);
+// console.log('All ENV VARIABLES:', process.env);
 
 // Export app for testing
 module.exports = app;
