@@ -56,6 +56,7 @@ router.get('/count', async (req, res) => {
   }
 });
 
+
 // @route   POST /api/users/register
 // @desc    Register a new user
 // @access  Public
@@ -102,6 +103,7 @@ router.post('/register', authLimiter, async (req, res) => {
   }
 });
 
+
 // @route   POST /api/users/login
 // @desc    Authenticate user and get token
 // @access  Public
@@ -110,7 +112,7 @@ router.post('/login', authLimiter, async (req, res) => {
   const { error } = loginSchema.validate(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
 
   const recaptchaScore = await verifyRecaptchaToken(req.body.captchaToken);
 
@@ -138,11 +140,15 @@ router.post('/login', authLimiter, async (req, res) => {
       }
     };
     // console.log('JWT SECRET', process.env.JWT_SECRET)
+
+    // Determine token expiration based on 'rememberMe'
+    const expiresIn = rememberMe ? '30d' : '1h';  // 30 days if 'rememberMe' is true, otherwise 1 hour
+
     // Sign JWT and return it to the user
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: '1h' },  // Token expires in 1 hour
+      { expiresIn },
       (err, token) => {
         if (err) throw err;
         res.status(200).json({ msg: 'Login successful', token });
@@ -155,7 +161,6 @@ router.post('/login', authLimiter, async (req, res) => {
 });
 
   
-
 // @route   POST /api/users/forgot-password
 // @desc    Send email with password reset link
 // @access  Public
@@ -210,6 +215,5 @@ router.post('/reset-password', authLimiter, async (req, res) => {
 });
   
   
-
 module.exports = router; // Export only the router by default
 module.exports.verifyRecaptchaToken = verifyRecaptchaToken; // Export function for testing
