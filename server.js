@@ -86,6 +86,19 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
+// Error Handlers for Uncaught Exceptions and Unhandled Rejections
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  // Gracefully shut down
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Gracefully shut down
+  process.exit(1);
+});
+
 // Conditionally connect to MongoDB only if not in test environment
 if (process.env.NODE_ENV !== 'test') {
   mongoose.connect(process.env.MONGO_URI)
