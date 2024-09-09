@@ -25,7 +25,6 @@ function withTimeout(promise, ms) {
 }
 
 async function verifyRecaptchaToken(token) {
-
   const projectPath = recaptchaClient.projectPath(PROJECT_ID);
 
   // Build the assessment request.
@@ -41,16 +40,16 @@ async function verifyRecaptchaToken(token) {
 
   try {
     // Call the reCAPTCHA service with a 5-second timeout
-    const response = await withTimeout(recaptchaClient.createAssessment(request), 5000);
+    const [response] = await withTimeout(recaptchaClient.createAssessment(request), 5000);
 
     // Check if the token is valid.
-    if (!response.tokenProperties.valid) {
+    if (!response.tokenProperties || !response.tokenProperties.valid) {
       console.log(`The CreateAssessment call failed because the token was: ${response.tokenProperties.invalidReason}`);
       return null;
     }
 
     // Return the risk score
-    return response.riskAnalysis.score;
+    return response.riskAnalysis.score || 0;
   } catch (error) {
     if (error === 'timeout') {
       console.error('reCAPTCHA verification timed out');
@@ -58,8 +57,8 @@ async function verifyRecaptchaToken(token) {
       console.error('Error during reCAPTCHA verification:', error);
     }
     return null;
-  }
-}
+  };
+};
 
 // @route   GET /api/users/count
 // @desc    Get total number of registered users
