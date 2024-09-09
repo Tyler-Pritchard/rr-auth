@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { registerSchema, loginSchema, resetPasswordSchema } = require('../validation/schemas');
 const authLimiter = require('../middleware/authLimiter');
 const Joi = require('joi');
+const nodemailer = require('nodemailer');
 const User = require('../models/User');
 const router = express.Router();
 const {RecaptchaEnterpriseServiceClient} = require('@google-cloud/recaptcha-enterprise');
@@ -59,6 +60,15 @@ async function verifyRecaptchaToken(token) {
     return null;
   };
 };
+
+// Configure Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail', // You can use any email provider here (e.g., Gmail, SendGrid)
+  auth: {
+    user: process.env.EMAIL_USER, // Your Gmail address or email service
+    pass: process.env.EMAIL_PASS, // Your email password or app-specific password
+  },
+});
 
 // @route   GET /api/users/count
 // @desc    Get total number of registered users
@@ -195,10 +205,20 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
     }
 
     const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    const resetURL = `https://robrich.band/reset-password?token=${resetToken}`;
 
-    // Ideally send an email with this resetToken to the user
-    // For now, we'll just return it in the response
-    res.json({ resetToken });
+    // Send the email with the reset link
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: 'Password Reset Request',
+      text: `You requested a password reset. Please click the link to reset your password: ${resetURL}. This link is valid for 15 minutes.`,
+      html: `<p>You requested a password reset.</p><p><a href="${resetURL}">Click here</a> to reset your password. This link is valid for 15 minutes.</p>`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ msg: 'Password reset email sent. Please check your inbox.' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
