@@ -52,7 +52,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.index({ email: 1 }); // Ensures faster queries on the email field
+// Indexes for optimizing frequently queried fields
+userSchema.index({ email: 1 });
+userSchema.index({ username: 1 });
+userSchema.index({ isSubscribed: 1 });
 
 // Hash the password before saving the user
 userSchema.pre('save', async function (next) {

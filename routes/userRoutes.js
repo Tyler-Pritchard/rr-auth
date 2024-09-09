@@ -65,7 +65,7 @@ async function verifyRecaptchaToken(token) {
 // @access  Public
 router.get('/count', async (req, res) => {
   try {
-    const userCount = await User.countDocuments();
+    const userCount = await User.countDocuments().maxTimeMS(5000);
     res.status(200).json({ totalUsers: userCount });
   } catch (err) {
     console.error(err.message);
@@ -93,7 +93,7 @@ router.post('/register', authLimiter, async (req, res) => {
     }
 
     // Check if the user already exists
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email }).maxTimeMS(5000);
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
@@ -139,7 +139,7 @@ router.post('/login', authLimiter, async (req, res) => {
 
   try {
     // Check for the user
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email }).maxTimeMS(5000);
     if (!user) {
       return res.status(400).json({ msg: 'Incorrect email or password' });
     }
@@ -189,7 +189,7 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
   const { email } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email }).maxTimeMS(5000);
     if (!user) {
       return res.status(400).json({ msg: 'No account with that email found' });
     }
