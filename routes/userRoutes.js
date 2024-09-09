@@ -16,6 +16,14 @@ const recaptchaSiteKey = '6LfU8jIqAAAAAOAFm-eNXmW-uPrxqdH9xJLEfJ7R';
 // Initialize reCAPTCHA client
 const recaptchaClient = new RecaptchaEnterpriseServiceClient();
 
+// Helper function to apply timeout to a promise
+function withTimeout(promise, ms) {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject('timeout'), ms)
+  );
+  return Promise.race([promise, timeout]);
+}
+
 async function verifyRecaptchaToken(token) {
 
   const projectPath = recaptchaClient.projectPath(PROJECT_ID);
