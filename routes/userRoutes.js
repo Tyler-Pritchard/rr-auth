@@ -31,16 +31,26 @@ async function verifyRecaptchaToken(token) {
     parent: projectPath,
   };
 
-  const [response] = await recaptchaClient.createAssessment(request);
+  try {
+    // Call the reCAPTCHA service with a 5-second timeout
+    const response = await withTimeout(recaptchaClient.createAssessment(request), 5000);
 
-  // Check if the token is valid.
-  if (!response.tokenProperties.valid) {
-    console.log(`The CreateAssessment call failed because the token was: ${response.tokenProperties.invalidReason}`);
+    // Check if the token is valid.
+    if (!response.tokenProperties.valid) {
+      console.log(`The CreateAssessment call failed because the token was: ${response.tokenProperties.invalidReason}`);
+      return null;
+    }
+
+    // Return the risk score
+    return response.riskAnalysis.score;
+  } catch (error) {
+    if (error === 'timeout') {
+      console.error('reCAPTCHA verification timed out');
+    } else {
+      console.error('Error during reCAPTCHA verification:', error);
+    }
     return null;
   }
-
-  // Return the risk score
-  return response.riskAnalysis.score;
 }
 
 // @route   GET /api/users/count
@@ -65,7 +75,7 @@ router.post('/register', authLimiter, async (req, res) => {
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
   const { firstName, lastName, username, email, password, dateOfBirth, country, isSubscribed, captchaToken } = req.body;
-  // TEST CAPTCHA DISABLE FOR PROD
+
   // console.log("CAPTCHA TOKEN in POST: ", captchaToken)
   try {
     // Verify CAPTCHA
