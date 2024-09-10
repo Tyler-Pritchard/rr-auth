@@ -5,10 +5,11 @@ const jwt = require('jsonwebtoken');
 const { registerSchema, loginSchema, resetPasswordSchema } = require('../validation/schemas');
 const authLimiter = require('../middleware/authLimiter');
 const Joi = require('joi');
-const nodemailer = require('nodemailer');
 const User = require('../models/User');
 const router = express.Router();
 const {RecaptchaEnterpriseServiceClient} = require('@google-cloud/recaptcha-enterprise');
+const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
 
 const SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
 const PROJECT_ID = 'rr-auth-1725047695006';
@@ -61,12 +62,29 @@ async function verifyRecaptchaToken(token) {
   };
 };
 
-// Configure Nodemailer transporter
+// OAuth2 client setup
+const OAuth2 = google.auth.OAuth2;
+const oauth2Client = new OAuth2(
+  process.env.CLIENT_ID, // Client ID from Google Cloud
+  process.env.CLIENT_SECRET, // Client Secret from Google Cloud
+  'https://developers.google.com/oauthplayground' // Redirect URL
+);
+
+// Set refresh token
+oauth2Client.setCredentials({
+  refresh_token: process.env.REFRESH_TOKEN, // Set the refresh token here
+});
+
+// Create Nodemailer transporter with OAuth2
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // You can use any email provider here (e.g., Gmail, SendGrid)
+  service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER, // Your Gmail address or email service
-    pass: process.env.EMAIL_PASS, // Your email password or app-specific password
+    type: 'OAuth2',
+    user: process.env.EMAIL_USER, // Your Gmail address
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN,
+    accessToken: oauth2Client.getAccessToken(), // Get the access token
   },
 });
 
