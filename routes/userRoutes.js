@@ -248,7 +248,7 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
 // @desc    Reset password using token
 // @access  Public
 router.post('/reset-password', authLimiter, async (req, res) => {
-  const { error } = registerSchema.validate(req.body);
+  const { error } = updatePasswordSchema.validate(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
   const { token, newPassword } = req.body;
   console.log("BACKEND REQ BODY", req.body);

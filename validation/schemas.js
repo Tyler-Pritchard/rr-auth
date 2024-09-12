@@ -26,8 +26,15 @@ const resetPasswordSchema = Joi.object({
   email: Joi.string().email().required(),
 });
 
+// Schema for resetting the password using token
+const updatePasswordSchema = Joi.object({
+  token: Joi.string().required(),
+  newPassword: Joi.string().min(6).required(),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
   resetPasswordSchema,
+  updatePasswordSchema
 };
