@@ -250,16 +250,20 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
 router.post('/reset-password', authLimiter, async (req, res) => {
   const { error } = updatePasswordSchema.validate(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
+  
   const { token, newPassword } = req.body;
   console.log("BACKEND REQ BODY", req.body);
+  
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log("DECODED JWT TOKEN: ", decoded);
+    
     let user = await User.findById(decoded.id);
     if (!user) {
       return res.status(400).json({ msg: 'Invalid token' });
     }
 
+    // Only update the password and leave other fields unchanged
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
 
@@ -269,7 +273,6 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-  
   
 module.exports = router; // Export only the router by default
 module.exports.verifyRecaptchaToken = verifyRecaptchaToken; // Export function for testing
