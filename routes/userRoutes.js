@@ -269,6 +269,7 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     await user.save();
 
     res.json({ msg: 'Password reset successful' });
+    console.log("PASSWORD HAS BEEN RESET");
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
