@@ -251,9 +251,10 @@ router.post('/reset-password', authLimiter, async (req, res) => {
   const { error } = registerSchema.validate(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
   const { token, newPassword } = req.body;
-
+  console.log("BACKEND REQ BODY", req.body);
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("DECODED JWT TOKEN: ", decoded);
     let user = await User.findById(decoded.id);
     if (!user) {
       return res.status(400).json({ msg: 'Invalid token' });
