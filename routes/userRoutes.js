@@ -111,7 +111,7 @@ router.post('/register', authLimiter, async (req, res) => {
 
   const { firstName, lastName, username, email, password, dateOfBirth, country, isSubscribed, captchaToken } = req.body;
 
-  // console.log("CAPTCHA TOKEN in POST: ", captchaToken)
+  console.log("CAPTCHA TOKEN in POST: ", captchaToken)
   try {
     // Verify CAPTCHA
     const recaptchaScore = await verifyRecaptchaToken(captchaToken);
@@ -160,6 +160,7 @@ router.post('/login', authLimiter, async (req, res) => {
   const { email, password, rememberMe } = req.body;
 
   const recaptchaScore = await verifyRecaptchaToken(req.body.captchaToken);
+  console.log("LOGIN CAPTCHA Token:", req.body.captchaToken);
 
   if (recaptchaScore === null || recaptchaScore < 0.5) {
     return res.status(400).json({ msg: 'CAPTCHA verification failed' });
@@ -184,7 +185,7 @@ router.post('/login', authLimiter, async (req, res) => {
         id: user.id
       }
     };
-    // console.log('JWT SECRET', process.env.JWT_SECRET)
+    console.log('JWT SECRET', process.env.JWT_SECRET)
 
     // Determine token expiration based on 'rememberMe'
     const expiresIn = rememberMe ? '30d' : '1h';  // 30 days if 'rememberMe' is true, otherwise 1 hour
@@ -262,6 +263,15 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     // Hash the new password and update the user's password field
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
+
+    console.log("Password entered:", password);
+    console.log("Password stored in DB:", user.password);
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      console.log("Password mismatch");
+      return res.status(400).json({ msg: 'Incorrect email or password' });
+    }
 
     // Save the updated user object
     await user.save();
