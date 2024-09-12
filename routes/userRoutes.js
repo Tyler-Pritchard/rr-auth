@@ -254,6 +254,7 @@ router.post('/reset-password', authLimiter, async (req, res) => {
   const { token, newPassword } = req.body;
 
   try {
+    // Verify the JWT token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     let user = await User.findById(decoded.id);
     if (!user) {
@@ -264,16 +265,7 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
 
-    console.log("Password entered:", password);
-    console.log("Password stored in DB:", user.password);
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      console.log("Password mismatch");
-      return res.status(400).json({ msg: 'Incorrect email or password' });
-    }
-
-    // Save the updated user object
+    // Save the updated user object with the new password
     await user.save();
 
     res.json({ msg: 'Password reset successful' });
