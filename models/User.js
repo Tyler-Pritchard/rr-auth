@@ -48,7 +48,9 @@ const userSchema = new mongoose.Schema({
   },
   captchaToken: {
     type: String,
-    required: true,
+    required: function() {
+      return this.isNew || this.isModified('captchaToken');
+    },
   },
 });
 
