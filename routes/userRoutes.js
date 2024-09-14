@@ -265,14 +265,14 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     if (!user) {
       return res.status(400).json({ msg: 'Invalid token' });
     }
+    const newPassword = req.body.password;
+    console.log('Plain new password:', newPassword);
 
     // Hash the new password and update the user's password field
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(newPassword, salt);
-
-    console.log('Plain new password:', newPassword);  // Log plain new password before hashing
-    console.log('Hashed new password:', user.password);  // Log hashed new password
-
+    const saltRounds = 10; // Ensure this matches what is used during registration
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    console.log('Hashed new password:', hashedPassword);
+    user.password = hashedPassword;
 
     // Save the updated user object with the new password
     await user.save();
