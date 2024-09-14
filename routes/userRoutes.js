@@ -173,8 +173,13 @@ router.post('/login', authLimiter, async (req, res) => {
       return res.status(400).json({ msg: 'Incorrect email or password' });
     }
 
+    console.log('Plain password:', password);
+    console.log('Hashed password from DB:', user.password);
+
     // Validate password
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match result:', isMatch);
+
     if (!isMatch) {
       return res.status(400).json({ msg: 'Incorrect email or password' });
     }
@@ -264,6 +269,8 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     // Hash the new password and update the user's password field
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
+
+    console.log('Hashed password:', user.password);
 
     // Save the updated user object with the new password
     await user.save();
