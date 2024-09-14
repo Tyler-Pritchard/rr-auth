@@ -228,7 +228,7 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
       return res.status(400).json({ msg: 'No account with that email found' });
     }
 
-    const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const resetURL = `https://robrich.band/reset-password?token=${resetToken}`;
 
     // Send the email with the reset link
