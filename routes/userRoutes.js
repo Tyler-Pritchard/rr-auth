@@ -256,7 +256,8 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
 router.post('/reset-password', authLimiter, async (req, res) => {
   const { error } = updatePasswordSchema.validate(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
-  const { token, newPassword } = req.body;
+
+  const { token, newPassword } = req.body;  // Ensure newPassword is captured from request body
 
   try {
     // Verify the JWT token
@@ -265,7 +266,7 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     if (!user) {
       return res.status(400).json({ msg: 'Invalid token' });
     }
-    const newPassword = req.body.password;
+
     console.log('Plain new password:', newPassword);
 
     // Hash the new password and update the user's password field
@@ -284,7 +285,3 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
-  
-module.exports = router; // Export only the router by default
-module.exports.verifyRecaptchaToken = verifyRecaptchaToken; // Export function for testing
