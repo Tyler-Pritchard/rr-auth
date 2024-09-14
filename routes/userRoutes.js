@@ -173,12 +173,12 @@ router.post('/login', authLimiter, async (req, res) => {
       return res.status(400).json({ msg: 'Incorrect email or password' });
     }
 
-    console.log('Plain password:', password);
-    console.log('Hashed password from DB:', user.password);
+    console.log('Plain password entered for login:', password);  // Log plain password entered
+    console.log('Hashed password from DB:', user.password);  // Log hashed password from DB    
 
     // Validate password
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log('Password match result:', isMatch);
+    console.log('Password match result:', isMatch);    
 
     if (!isMatch) {
       return res.status(400).json({ msg: 'Incorrect email or password' });
@@ -270,7 +270,9 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
 
-    console.log('Hashed password:', user.password);
+    console.log('Plain new password:', newPassword);  // Log plain new password before hashing
+    console.log('Hashed new password:', user.password);  // Log hashed new password
+
 
     // Save the updated user object with the new password
     await user.save();
