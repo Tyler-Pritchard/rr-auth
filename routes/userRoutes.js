@@ -305,6 +305,7 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     // const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
     // console.log('Hashed new password:', hashedPassword);
     // user.password = hashedPassword;
+    user.password = newPassword;
 
     // Save the updated user object with the new password
     await user.save();
