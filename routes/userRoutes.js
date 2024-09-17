@@ -289,6 +289,9 @@ router.post('/reset-password', authLimiter, async (req, res) => {
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
   const { token, newPassword } = req.body;  // Ensure newPassword is captured from request body
+  if (!token) {
+    return res.status(400).json({ msg: 'Token missing' });
+  }
   console.log("RESET TOKEN passed to /reset-password: ", token)
   try {
     // Verify the JWT token
