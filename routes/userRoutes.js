@@ -75,18 +75,32 @@ oauth2Client.setCredentials({
   refresh_token: process.env.REFRESH_TOKEN, // Set the refresh token here
 });
 
+let transporter;
+
 // Create Nodemailer transporter with OAuth2
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    type: 'OAuth2',
-    user: process.env.EMAIL_USER, // Your Gmail address
-    clientId: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
-    refreshToken: process.env.REFRESH_TOKEN,
-    accessToken: oauth2Client.getAccessToken(), // Get the access token
-  },
-});
+if (process.env.NODE_ENV === 'development') {
+  transporter = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: process.env.TEST_EMAIL_USER,
+      pass: process.env.TEST_EMAIL_PASS
+    },
+    jsonTransport: true  // Simulates sending emails without actually sending them
+  });
+} else {
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: process.env.EMAIL_USER, // Your Gmail address
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      refreshToken: process.env.REFRESH_TOKEN,
+      accessToken: oauth2Client.getAccessToken(), // Get the access token
+    }
+  });
+}
 
 // @route   GET /api/users/count
 // @desc    Get total number of registered users
@@ -95,6 +109,21 @@ router.get('/count', async (req, res) => {
   try {
     const userCount = await User.countDocuments().maxTimeMS(5000);
     res.status(200).json({ totalUsers: userCount });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+// @route   POST /api/users/logout
+// @desc    Invalidate the user's token (if necessary) and handle logout
+// @access  Public
+router.post('/logout', (req, res) => {
+  try {
+    // When cookies added, add logic here to handle token invalidation
+       
+    res.status(200).json({ msg: 'Logout successful' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -229,6 +258,8 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
     }
 
     const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log(`Password reset token for ${email}: ${resetToken}`);
+
     const resetURL = `https://robrich.band/reset-password?token=${resetToken}`;
 
     // Send the email with the reset link
@@ -258,7 +289,7 @@ router.post('/reset-password', authLimiter, async (req, res) => {
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
   const { token, newPassword } = req.body;  // Ensure newPassword is captured from request body
-
+  console.log("RESET TOKEN passed to /reset-password: ", token)
   try {
     // Verify the JWT token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -270,10 +301,11 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     console.log('Plain new password:', newPassword);
 
     // Hash the new password and update the user's password field
-    const saltRounds = 10; // Ensure this matches what is used during registration
-    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-    console.log('Hashed new password:', hashedPassword);
-    user.password = hashedPassword;
+    // const saltRounds = 10; // Ensure this matches what is used during registration
+    // const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    // console.log('Hashed new password:', hashedPassword);
+    // user.password = hashedPassword;
+    user.password = newPassword;
 
     // Save the updated user object with the new password
     await user.save();
