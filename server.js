@@ -34,6 +34,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production' ? ['https://www.rob
 
 app.use(cors({
   origin: function (origin, callback) {
+    console.log('Incoming Origin:', origin); 
     // Allow requests with no origin (e.g., Postman, server-to-server requests) or allowed origins
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
