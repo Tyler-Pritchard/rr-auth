@@ -288,7 +288,10 @@ router.post('/reset-password', authLimiter, async (req, res) => {
   const { error } = updatePasswordSchema.validate(req.body);
   if (error) return res.status(400).json({ msg: error.details[0].message });
 
-  const { token, newPassword } = req.body;  // Ensure newPassword is captured from request body
+  const token = req.body.token || req.headers['reset-token'];  // Check both headers and body for token
+  console.log('Request body:', req.body);
+  console.log('Request headers:', req.headers);
+
   if (!token) {
     return res.status(400).json({ msg: 'Token missing' });
   }
@@ -300,7 +303,7 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     if (!user) {
       return res.status(400).json({ msg: 'Invalid token' });
     }
-
+    const { newPassword } = req.body;
     console.log('Plain new password:', newPassword);
 
     // Hash the new password and update the user's password field
