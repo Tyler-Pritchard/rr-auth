@@ -50,9 +50,9 @@ app.use((req, res, next) => {
   // console.log('Incoming request:', req.method, req.path);
 
   // Set headers for all requests
-  res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // PUSH FOR PROD
+  // res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // PUSH FOR PROD
   // res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // DEVELOPMENT
-  // res.header('Access-Control-Allow-Origin', req.headers.origin || '*');  // RUN TESTS
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');  // RUN TESTS
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
   res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials (cookies)
