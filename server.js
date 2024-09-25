@@ -15,24 +15,28 @@ const app = express();
 
 // Decode Base64 string to JSON
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
-  const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
-  const jsonCredentials = Buffer.from(base64Credentials, 'base64').toString('utf8');
+    const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
+    const jsonCredentials = Buffer.from(base64Credentials, 'base64').toString('utf8');
 
-  // Write JSON to a temporary file
-  const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
-  fs.writeFileSync(tempFilePath, jsonCredentials);
-  // console.log("CREDENTIALS: ", jsonCredentials);
+    // Write JSON to a temporary file
+    const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
+    fs.writeFileSync(tempFilePath, jsonCredentials);
+    // console.log("CREDENTIALS: ", jsonCredentials);
 
-  // Set the environment variable to the path of the temporary file
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
-} else {
-  console.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is not set.");
-  process.exit(1);
+    // Set the environment variable to the path of the temporary file
+    process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
+  } else {
+    console.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is not set.");
+    process.exit(1);
 }
 
 // Enable CORS for requests from specified origins
-// const allowedOrigins = process.env.NODE_ENV === 'production' ? [ 'https://rrsite-git-main-tylers-projects-06089682.vercel.app', 'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app', 'https://www.robrich.band'] : ['http://localhost:3000'];
-const allowedOrigins = process.env.NODE_ENV === 'production' ? ['https://www.robrich.band'] : ['http://localhost:3000'];
+const allowedOrigins = process.env.NODE_ENV === 'production' ? [
+  'https://rrsite-git-main-tylers-projects-06089682.vercel.app',
+  'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app',
+  'https://www.robrich.band'
+] : ['http://localhost:3000'];
+
 
 // Create a stream for Morgan to use Winston
 const stream = {
@@ -42,27 +46,31 @@ const stream = {
 // Morgan for HTTP logging
 app.use(morgan('combined')); 
 
+// CORS middleware
 app.use(cors({
   origin: function (origin, callback) {
     console.log('Incoming Origin:', origin); 
-    // Allow requests with no origin (e.g., Postman, server-to-server requests) or allowed origins
+
+    // Allow requests from Postman or other server-to-server tools that may not have an origin
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
+      callback(null, true);  // If origin is allowed, proceed with the request
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error('Not allowed by CORS'));  // Reject the request if origin is not allowed
     }
   },
-  credentials: true,
+  credentials: true,  // Allow credentials (cookies, etc.)
 }));
 
 // Middleware to handle preflight requests and set necessary CORS headers
 app.use((req, res, next) => {
   // console.log('Incoming request:', req.method, req.path);
+  const origin = req.headers.origin || '*';
+  
+  // Set dynamic Access-Control-Allow-Origin based on the environment
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
 
-  // Set headers for all requests
-  // res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // PUSH FOR PROD
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // DEVELOPMENT
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');  // RUN TESTS
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
   res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials (cookies)
