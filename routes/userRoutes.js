@@ -1,9 +1,9 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
 const { registerSchema } = require('../validation/schemas');
 const authLimiter = require('../middleware/authLimiter');
 const User = require('../models/User');
 const { verifyRecaptchaToken } = require('../utils/recaptcha');
+const { hashPassword } = require('../utils/bcrypt');
 const logger = require('../utils/logger');
 const router = express.Router();
 
@@ -56,16 +56,13 @@ router.post('/register', authLimiter, async (req, res) => {
       lastName,
       username,
       email,
-      password,
+      password: await hashPassword(password),
       dateOfBirth: new Date(dateOfBirth),
       country,
       isSubscribed,
       captchaToken
     });
 
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
     logger.info('User password hashed during registration', { email });
 
     // Save the new user

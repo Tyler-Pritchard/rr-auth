@@ -66,3 +66,43 @@
 {"email":"pritchard.tyler@gmail.com","level":"info","message":"User found during login","timestamp":"2024-09-25T05:55:02.253Z"}
 {"isMatch":false,"level":"info","message":"Password comparison result","timestamp":"2024-09-25T05:55:02.323Z"}
 {"email":"pritchard.tyler@gmail.com","level":"info","message":"Invalid password entered","timestamp":"2024-09-25T05:55:02.323Z"}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-25T08:31:17.222Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-25T08:31:18.458Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-25T08:31:18.924Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:32:01.762Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:32:01.805Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:32:01.816Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:32:01.836Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:33:24.755Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:33:24.776Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:33:24.804Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:33:24.828Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:33:32.290Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:33:32.319Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:33:32.323Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:33:32.353Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:33:37.875Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:33:37.895Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:33:37.898Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:33:38.053Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:34:04.719Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:34:04.722Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0.8999999761581421,"timestamp":"2024-09-25T08:34:04.955Z","tokenProperties":{"action":"submit","androidPackageName":"","createTime":{"nanos":231000000,"seconds":"1727253217"},"hostname":"localhost","invalidReason":"INVALID_REASON_UNSPECIFIED","iosBundleId":"","valid":true}}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"CAPTCHA verification for registration","recaptchaScore":0.8999999761581421,"timestamp":"2024-09-25T08:34:04.955Z"}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"User password hashed during registration","timestamp":"2024-09-25T08:34:05.058Z"}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"New user registered successfully","timestamp":"2024-09-25T08:34:05.175Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:34:13.973Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:34:13.996Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:34:13.998Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:34:14.018Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:34:21.571Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:34:21.685Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:34:21.687Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T08:34:21.835Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:34:33.027Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-25T08:34:33.029Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0.8999999761581421,"timestamp":"2024-09-25T08:34:33.118Z","tokenProperties":{"action":"login","androidPackageName":"","createTime":{"nanos":214000000,"seconds":"1727253261"},"hostname":"localhost","invalidReason":"INVALID_REASON_UNSPECIFIED","iosBundleId":"","valid":true}}
+{"level":"info","message":"LOGIN CAPTCHA Token:","score":0.8999999761581421,"timestamp":"2024-09-25T08:34:33.118Z","token":"03AFcWeA6hoWKOUgoQFUMnuMA2f5NGDo7qgp2Mph6VtHxNejICqkqKjX4tUBGhKB4o_ma4YhhkOFrXga-VBNUxqsp4wAmqZa4SM-5I1ZvWu5OakOk36VMNbOrQiQ4-ay9yPnHNIK4rnY3mEbYhqVFHX4qop8l_zfSXxxumCHR9ZMhmi9oQc7tXpbKAgrxhrXIGt6q-AyJb_clEZI3YP32bBh5emG1TJ1GfFWNB25zcoxbZvR9Yk3B4B1lt2dmLCFjY6uBf-d5P7M8-uKv7FCd1bzxQTqUGJYiBgXqv0w29nlM23g51gSAdq06iahp4wCGgbEk5xaIh9EHS0A9wiW4paMKiAhFVNIzFSVl1bK_Upsk-foHI7QEWN91baTGbRhwecJKuM9216e81csyxTC7JqglF1eijHGJM68Qruz3-K7k5SxQwR1uEqJwgieOhOTxApI5BZtbJ1C0qqJLBO2rYLBG4QnBr-bGHjVWWPT4NNP4Kt918Ns_Vf8oIxIasjhvJtHX7TGVv7tHdThJk-9pmB3tzRrTg-z2pRhhcIMaTrdmXTCD6jWFuOvKGUsXecJMB84ANHSLcdlMi0StZz2ebbk7MuIy2lmVpz5vPY-E1MbHxGX_5JMExSOztTtvLzuNR29aj5e4DyBuRf7NW6lE1uBzX7jjvHg2V9EhVJA_MbWQizcYvJ8GjFcJTf1GlyVUkE_kiQUbyv8_DXI1LpOMeNtbN-91gWh1i02cITQ6BMOFbZnTHgA9OcJiCmwmchCCggI8IAPkS-TTL3BWRl8B43QA4p9qaOhDrp6sq__sdC8F81hBVxrt-mYr3-Bhlr5LRX4lGwSlTpzzlfiHDAOuDbSFWxdp-CodrzmnewxGXqV4Bi-FqP3KTZAqRv6XPg3lQsRfXBaF8bEOXC8pAHvDJLaxiHlxqO43KNfgy5ULCMYwu_uFDnz9e-Wu0o_cn3dcR1CSDgy1g4vOm0R9YWBDSzpOs3I-qhvQjFTs4BlYsJFb-tQZ0VO6JJXBZP_61len3ViSPt0Lf-3b0rubAL2I2_tEKcPnvwMlHo9Ju98Ox3jBx4diiLJi2uAtpckVB6QwMmi6aJkTXfrueAOG7zzgUgzebehazOUafrkwAK2IrGavOouuufs6YEi03S9PewbVJQ7bA99lwuPXt9D2bV5-6TZ6GzQm3JNgU8LlDKj5DkKxKoeQG1cLl0IBmRoqDXvcc1KcKF4cq2q9qNSs-W6Thr2AC1lfASvgoTf3-rMRqTsu1qLFKowY-hdhX3n6quphicHrVnaJAnNQyltq8dBUJiJukBfFeB0GY_LkfBy_wZQZocbRWLdTVxHCIFxX1WFmwZl2NpwWnFM43JduI3kR1bYU7ypZRaeEAOUPm-aV59JuPt6jOItviNw_5htDaC9vvQITIl841hmHAwX0R8uCK-6QBvQfzhS0peVxA1lcNaMA5bQn-avXQl4N547AwT19q4M-3SKde5_P-h8s7lypjIFD4bPs5O4yCTusxp8MCVCU8AvYleIi7YiYyL_wvdGodv8MnC1WNa1BN4_M2GteWbiIMs-PwAVZpohmvg2mkSfj1Kt_mLa4DSIeUXIpLR9hWY8LEAdL1azy5xI-xIakl6GFNh4YKpFQdPLHUrP0dbh6crB33-Yy2i79tMxMOMuWoy4hcy7p8dR6MxzVZIwONbJrlinxUiiWDkjbd7GiumA-nJ-VagC8elNj_TM28zLcXbptVYYdGz-62ZQsFQiKJvv4QjPG2_eaZ-w_YcdNGV2R3kXjGMJuwl4ajZkZjL6m9rxwh2UuvKTkA-1KZVa5xHfiMcDJ3xpMCAHmVeiwRW5XzySX6FneGqr6WklIXkM9lNPgbTBDKOPh5GK84AbiRV73yXpxqv8X2CQtOfSlQTdWYhHMrOoy5-cwlP4LHgj9-IGDY0CAQXlgKyQCOWMZAGid2MhmWnGBfm4bmNp-i3jME0vRLYeVkPIP33NdCUE722Oc1ScTinYgs"}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"User found during login","timestamp":"2024-09-25T08:34:33.143Z"}
+{"isMatch":false,"level":"info","message":"Password comparison result","timestamp":"2024-09-25T08:34:33.213Z"}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"Invalid password entered","timestamp":"2024-09-25T08:34:33.214Z"}

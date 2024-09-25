@@ -1,10 +1,10 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { loginSchema } = require('../validation/schemas');
 const authLimiter = require('../middleware/authLimiter');
 const User = require('../models/User');
 const { verifyRecaptchaToken } = require('../utils/recaptcha');
+const { comparePassword } = require('../utils/bcrypt');
 const logger = require('../utils/logger'); 
 const router = express.Router();
 
@@ -42,7 +42,7 @@ router.post('/login', authLimiter, async (req, res) => {
         logger.info('User found during login', { email });
 
         // Validate password
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await comparePassword(password, user.password);
         logger.info('Password comparison result', { isMatch });
 
         if (!isMatch) {

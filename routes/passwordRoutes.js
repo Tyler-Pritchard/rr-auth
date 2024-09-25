@@ -1,12 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const { resetPasswordSchema, updatePasswordSchema } = require('../validation/schemas');
 const authLimiter = require('../middleware/authLimiter');
 const transporter = require('../utils/emailTransporter');
 const User = require('../models/User');
 const { verifyRecaptchaToken } = require('../utils/recaptcha');
 const logger = require('../utils/logger');
+const { hashPassword } = require('../utils/bcrypt'); 
 const router = express.Router();
 
 
@@ -98,9 +98,8 @@ router.post('/reset-password', authLimiter, async (req, res) => {
         const { newPassword } = req.body;
         logger.info('Plain new password received for reset', { newPassword });
 
-        // Hash the new password
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(newPassword, salt);
+        // Use bcrypt utility to hash the new password
+        user.password = await hashPassword(newPassword);
         logger.info('New password hashed', { userId: user.id });
 
         // Save the updated user object with the new password
