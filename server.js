@@ -9,6 +9,12 @@ const cors = require('cors');
 const morgan = require('morgan');
 const logger = require('./utils/logger');
 
+// Import route files
+const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
+const passwordRoutes = require('./routes/passwordRoutes');
+const mockCaptchaRoutes = require('./routes/mockCaptcha');
+
 dotenv.config();
 
 const app = express();
@@ -112,7 +118,7 @@ process.on('uncaughtException', (err) => {
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  logger.error('Unhandled Rejection at:', { promise, reason });
+  logger.error('Unhandled Rejection at:', { promise, reason: reason.message || reason, stack: reason.stack || 'No stack trace' });
   process.exit(1);
 });
 
@@ -123,15 +129,11 @@ if (process.env.NODE_ENV !== 'test') {
   .catch(err => logger.error('MongoDB connection error', { error: err.message }));
 }
 
-// Import route files
-const userRoutes = require('./routes/userRoutes');
-const authRoutes = require('./routes/authRoutes');
-const passwordRoutes = require('./routes/passwordRoutes');
-
 // Use route files
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/password', passwordRoutes);
+app.use('/api/mock-recaptcha', mockCaptchaRoutes);
 
 // Healthcheck route
 app.get('/', (req, res) => {
