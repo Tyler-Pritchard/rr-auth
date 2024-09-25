@@ -1,6 +1,6 @@
 # RR-Auth
 
-RR-Auth is a user authentication microservice designed for the Rob Rich website. This service handles user registration, login, and CAPTCHA verification. It uses Node.js, Express, and MongoDB to manage user data, ensuring security with bcrypt password hashing and JWT-based authentication.
+RR-Auth is a user authentication and authorization microservice for the Rob Rich website. This service handles user registration, login, password reset, CAPTCHA verification, and token-based authentication using JWT. It leverages Node.js, Express, and MongoDB, ensuring data security with bcrypt for password hashing, rate limiting for brute-force attack protection, and Google reCAPTCHA for bot prevention.
 
 ## Table of Contents
 - [RR-Auth](#rr-auth)
@@ -10,15 +10,30 @@ RR-Auth is a user authentication microservice designed for the Rob Rich website.
   - [Installation](#installation)
     - [Prerequisites](#prerequisites)
     - [Steps](#steps)
-    - [Key Points:](#key-points)
+  - [Configuration](#configuration)
+    - [Environment Variables](#environment-variables)
+  - [API Endpoints](#api-endpoints)
+    - [User Registration](#user-registration)
+    - [User Login](#user-login)
+    - [Forgot Password](#forgot-password)
+    - [Reset Password](#reset-password)
+    - [User Count](#user-count)
+  - [Security](#security)
+  - [Testing](#testing)
+    - [Test Features](#test-features)
+  - [Contributing](#contributing)
+  - [License](#license)
+
 
 ## Features
-- User registration with email and password.
-- CAPTCHA verification using Google reCAPTCHA.
-- Password hashing using bcrypt.
-- MongoDB for storing user data.
-- Express for handling HTTP requests.
-- JWT (JSON Web Token) based authentication.
+- User Registration: Securely register new users with email and password.
+- CAPTCHA Verification: Validate users using Google reCAPTCHA.
+- Login & JWT Authentication: Authenticate users and generate JWT tokens.
+- Password Reset: Allow users to reset passwords using email tokens.
+- Rate Limiting: Protect API routes with rate limiting to prevent abuse.
+- Email Service: Send password reset links via email.
+- MongoDB: Store user data securely in MongoDB.
+- JWT Token Expiration: Supports 'remember me' functionality for longer token expiration.
 
 ## Technologies Used
 - **Node.js**: JavaScript runtime for building scalable network applications.
@@ -28,6 +43,11 @@ RR-Auth is a user authentication microservice designed for the Rob Rich website.
 - **bcryptjs**: Library for hashing passwords.
 - **JWT**: Standard for securely transmitting information between parties as a JSON object.
 - **Google reCAPTCHA**: Service to protect your website from spam and abuse.
+- **Nodemailer**: Email handling for sending password reset links.
+- **Helmet**: Security middleware for HTTP headers.
+- **Express Rate Limit**: Protection from brute-force attacks
+- **Winston**: Logging for application events.
+
 
 ## Installation
 
@@ -35,49 +55,48 @@ RR-Auth is a user authentication microservice designed for the Rob Rich website.
 - [Node.js](https://nodejs.org/) installed on your local machine.
 - [MongoDB](https://www.mongodb.com/) Atlas account for cloud-based MongoDB, or a locally running MongoDB instance.
 - [Google reCAPTCHA](https://www.google.com/recaptcha/) account.
+- Set up an SMTP email service (e.g., Gmail) for sending password reset emails.
+
 
 ### Steps
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/rr-auth.git
-   cd rr-auth
-Install dependencies:
+```
+ git clone https://github.com/yourusername/rr-auth.git
+ cd rr-auth
+```
+1. Install dependencies:
+  ```
+    npm install
+  ```
+1. Create a ```.env``` file in the root directory and add your environment variables (see [Configuration](#configuration)).
+2. Start the server:
+  ```
+    npx nodemon server.js
+  ```
+  The server will start on http://localhost:5000.
 
-bash
-Copy code
-npm install
-Create a .env file in the root directory and add your environment variables:
+## Configuration
 
-plaintext
-Copy code
-MONGO_URI=mongodb+srv://your_mongo_uri
-RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
-RECAPTCHA_SITE_KEY=your_recaptcha_site_key
-PORT=5000
-Start the server:
+### Environment Variables
+In your ```.env``` file, include the following variables:
+  ```
+  MONGO_URI=mongodb+srv://your_mongo_uri
+  RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
+  RECAPTCHA_SITE_KEY=your_recaptcha_site_key
+  JWT_SECRET=your_jwt_secret_key
+  PORT=5000
+  EMAIL_USER=your_email_address
+  EMAIL_PASSWORD=your_email_password
+  ```
 
-bash
-Copy code
-npx nodemon server.js
-The server should now be running on http://localhost:5000.
+## API Endpoints
 
-Configuration
-Environment Variables
-The following environment variables need to be set in your .env file:
+### User Registration
 
-MONGO_URI: MongoDB connection string.
-RECAPTCHA_SECRET_KEY: Google reCAPTCHA secret key for backend verification.
-RECAPTCHA_SITE_KEY: Google reCAPTCHA site key for frontend integration.
-PORT: Port on which the server will run (default: 5000).
-Usage
-Register a New User
-You can test the registration endpoint using Postman or any other API client.
-
-Endpoint: /api/users/register
-Method: POST
-Body (JSON):
-json
-Copy code
+- Endpoint: /api/users/register
+- Method: POST
+- Body Parameters:
+```
 {
   "firstName": "John",
   "lastName": "Doe",
@@ -88,29 +107,70 @@ Copy code
   "country": "USA",
   "captchaToken": "your_recaptcha_token"
 }
-API Endpoints
-POST /api/users/register
-Registers a new user with the provided details and CAPTCHA verification.
-GET /
-Simple route to check if the API is running.
-Contributing
-Contributions are welcome! Please fork the repository, create a new branch, and submit a pull request.
+```
 
-License
+### User Login
+- Endpoint: /api/auth/login
+- Method: POST
+- Body Parameters:
+```
+{
+  "email": "john.doe@example.com",
+  "password": "securepassword123",
+  "captchaToken": "your_recaptcha_token",
+  "rememberMe": true
+}
+```
+
+### Forgot Password
+- Endpoint: /api/password/forgot-password
+- Method: POST
+- Body Parameters:
+```
+{
+  "email": "john.doe@example.com",
+  "captchaToken": "your_recaptcha_token"
+}
+```
+
+### Reset Password
+- Endpoint: /api/password/reset-password
+- Method: POST
+- Body Parameters:
+```
+{
+  "token": "reset_token_from_email",
+  "newPassword": "newsecurepassword123"
+}
+```
+
+### User Count
+- Endpoint: /api/users/count
+- Method: GET
+- Description: Returns the total number of registered users.
+
+## Security
+- Password Hashing: Passwords are hashed using bcrypt before being stored.
+- JWT Authentication: Token-based authentication is implemented with configurable expiration.
+- CAPTCHA Verification: Google reCAPTCHA is used to prevent bot attacks on registration and login routes.
+- Rate Limiting: Requests to sensitive endpoints are rate-limited to prevent abuse.
+
+## Testing
+This project uses ```Jest``` for testing. To run the tests:
+```
+npm test
+```
+
+### Test Features
+- In-memory MongoDB for isolated testing.
+- Unit tests for registration, login, and user count routes.
+
+## Contributing
+Contributions are welcome! Please follow the standard Git workflow:
+
+1. Fork the repository.
+2. Create a new branch for your feature.
+3. Submit a pull request for review.
+
+## License
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-markdown
-Copy code
-
-### Key Points:
-- The **README** covers all essential aspects of the project, including installation, configuration, and usage.
-- It adheres to industry standards by including sections such as **Features**, **Technologies Used**, **Installation**, **Configuration**, **Usage**, **API Endpoints**, **Contributing**, and **License**.
-- The instructions are clear, ensuring that developers can quickly get the project up and running.
-
-You can modify the `git clone` command and other parts according to your actual repository and setup. Let me know if you need further adjustments!
-
-
-
-
-
-
