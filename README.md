@@ -23,6 +23,7 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
     - [Test Features](#test-features)
   - [Contributing](#contributing)
   - [License](#license)
+  - [Contact](#contact)
 
 
 ## Features
@@ -61,7 +62,7 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
 ### Steps
 1. Clone the repository:
 ```
- git clone https://github.com/yourusername/rr-auth.git
+ git clone https://github.com/tyler-pritchard/rr-auth.git
  cd rr-auth
 ```
 1. Install dependencies:
@@ -174,3 +175,10 @@ Contributions are welcome! Please follow the standard Git workflow:
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Contact
+For any questions or support, please reach out:
+
+Tyler Pritchard
+[GitHub](https://www.github.com/tyler-pritchard)
+[LinkedIn](https://www.linkedin.com/in/tyler-pritchard)
