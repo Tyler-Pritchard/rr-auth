@@ -6,8 +6,12 @@ const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const morgan = require('morgan');
+const logger = require('./utils/logger');
 
 dotenv.config();
+
+const app = express();
 
 // Decode Base64 string to JSON
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
@@ -26,11 +30,17 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
   process.exit(1);
 }
 
-const app = express();
-
 // Enable CORS for requests from specified origins
 // const allowedOrigins = process.env.NODE_ENV === 'production' ? [ 'https://rrsite-git-main-tylers-projects-06089682.vercel.app', 'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app', 'https://www.robrich.band'] : ['http://localhost:3000'];
 const allowedOrigins = process.env.NODE_ENV === 'production' ? ['https://www.robrich.band'] : ['http://localhost:3000'];
+
+// Create a stream for Morgan to use Winston
+const stream = {
+  write: (message) => logger.info(message.trim()),  // Use Winston to log Morgan's output
+};
+
+// Morgan for HTTP logging
+app.use(morgan('combined')); 
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -51,7 +61,7 @@ app.use((req, res, next) => {
 
   // Set headers for all requests
   // res.header('Access-Control-Allow-Origin', 'https://www.robrich.band'); // PUSH FOR PROD
-  // res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // DEVELOPMENT
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // DEVELOPMENT
   res.header('Access-Control-Allow-Origin', req.headers.origin || '*');  // RUN TESTS
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
@@ -84,19 +94,16 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
 });
-
 app.use(limiter);
 
 // Error Handlers for Uncaught Exceptions and Unhandled Rejections
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
-  // Gracefully shut down
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  // Gracefully shut down
   process.exit(1);
 });
 
@@ -107,10 +114,17 @@ if (process.env.NODE_ENV !== 'test') {
     .catch(err => console.log(err));
 }
 
-// Use the router
+// Import route files
 const userRoutes = require('./routes/userRoutes');
-app.use('/api/users', userRoutes);
+const authRoutes = require('./routes/authRoutes');
+const passwordRoutes = require('./routes/passwordRoutes');
 
+// Use route files
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/password', passwordRoutes);
+
+// Healthcheck route
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
