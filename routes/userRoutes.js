@@ -64,6 +64,8 @@ router.post('/register', authLimiter, async (req, res) => {
     });
 
     logger.info('User password hashed during registration', { email });
+    logger.info('Login password comparison', { plainPassword: password, hashedPassword: user.password });
+
 
     // Save the new user
     await user.save();

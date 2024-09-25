@@ -40,6 +40,8 @@ router.post('/login', authLimiter, async (req, res) => {
         }
 
         logger.info('User found during login', { email });
+        logger.info('Login password comparison', { plainPassword: password, hashedPassword: user.password });
+
 
         // Validate password
         const isMatch = await comparePassword(password, user.password);
