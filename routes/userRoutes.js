@@ -1,10 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const { registerSchema } = require('../validation/schemas');
 const authLimiter = require('../middleware/authLimiter');
 const User = require('../models/User');
-const { verifyRecaptchaToken } = require('../utils/recaptcha'); // Import from utils
+const { verifyRecaptchaToken } = require('../utils/recaptcha');
+const logger = require('../utils/logger');
 const router = express.Router();
 
 // @route   GET /api/users/count
@@ -13,9 +13,10 @@ const router = express.Router();
 router.get('/count', async (req, res) => {
   try {
     const userCount = await User.countDocuments().maxTimeMS(5000);
+    logger.info('Total users count retrieved', { userCount }); 
     res.status(200).json({ totalUsers: userCount });
   } catch (err) {
-    console.error(err.message);
+    logger.error('Error fetching user count', { error: err.message });
     res.status(500).send('Server Error');
   }
 });
@@ -25,21 +26,27 @@ router.get('/count', async (req, res) => {
 // @access  Public
 router.post('/register', authLimiter, async (req, res) => {
   const { error } = registerSchema.validate(req.body);
-  if (error) return res.status(400).json({ msg: error.details[0].message });
+  if (error) {
+    logger.info('User registration validation failed', { error: error.details[0].message });
+    return res.status(400).json({ msg: error.details[0].message })
+  };
 
   const { firstName, lastName, username, email, password, dateOfBirth, country, isSubscribed, captchaToken } = req.body;
 
   try {
     // Verify CAPTCHA
     const recaptchaScore = await verifyRecaptchaToken(captchaToken);
+    logger.info('CAPTCHA verification for registration', { email, recaptchaScore });
 
     if (recaptchaScore === null || recaptchaScore < 0.5) {
+      logger.info('CAPTCHA verification failed during registration', { email });
       return res.status(400).json({ msg: 'CAPTCHA verification failed' });
     }
 
     // Check if the user already exists
     let user = await User.findOne({ email }).maxTimeMS(5000);
     if (user) {
+      logger.info('User already exists during registration', { email });
       return res.status(400).json({ msg: 'User already exists' });
     }
 
@@ -59,13 +66,15 @@ router.post('/register', authLimiter, async (req, res) => {
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
+    logger.info('User password hashed during registration', { email });
 
     // Save the new user
     await user.save();
+    logger.info('New user registered successfully', { email });
 
     res.status(201).json({ msg: 'User registered successfully' });
   } catch (error) {
-    console.error(error.message);
+    logger.error('Error during user registration', { error: error.message });
     res.status(500).send('Server error');
   }
 });
