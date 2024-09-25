@@ -21,12 +21,13 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
     // Write JSON to a temporary file
     const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
     fs.writeFileSync(tempFilePath, jsonCredentials);
-    // console.log("CREDENTIALS: ", jsonCredentials);
+    logger.info("Google Cloud credentials decoded and saved to file");
 
     // Set the environment variable to the path of the temporary file
     process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
+
   } else {
-    console.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is not set.");
+    logger.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is not set.");
     process.exit(1);
 }
 
@@ -49,12 +50,13 @@ app.use(morgan('combined'));
 // CORS middleware
 app.use(cors({
   origin: function (origin, callback) {
-    console.log('Incoming Origin:', origin); 
+    logger.info(`Incoming Origin: ${origin || 'undefined'}`);  // Log incoming origin for debugging CORS issues
 
     // Allow requests from Postman or other server-to-server tools that may not have an origin
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);  // If origin is allowed, proceed with the request
     } else {
+      logger.error(`CORS Error: Origin not allowed - ${origin}`);
       callback(new Error('Not allowed by CORS'));  // Reject the request if origin is not allowed
     }
   },
@@ -63,7 +65,6 @@ app.use(cors({
 
 // Middleware to handle preflight requests and set necessary CORS headers
 app.use((req, res, next) => {
-  // console.log('Incoming request:', req.method, req.path);
   const origin = req.headers.origin || '*';
   
   // Set dynamic Access-Control-Allow-Origin based on the environment
@@ -106,20 +107,20 @@ app.use(limiter);
 
 // Error Handlers for Uncaught Exceptions and Unhandled Rejections
 process.on('uncaughtException', (err) => {
-  console.error('Uncaught Exception:', err);
+  logger.error('Uncaught Exception:', { error: err.message, stack: err.stack });
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  logger.error('Unhandled Rejection at:', { promise, reason });
   process.exit(1);
 });
 
 // Conditionally connect to MongoDB only if not in test environment
 if (process.env.NODE_ENV !== 'test') {
   mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log(err));
+  .then(() => logger.info('MongoDB connected'))
+  .catch(err => logger.error('MongoDB connection error', { error: err.message }));
 }
 
 // Import route files
@@ -134,13 +135,13 @@ app.use('/api/password', passwordRoutes);
 
 // Healthcheck route
 app.get('/', (req, res) => {
+  logger.info('Healthcheck endpoint accessed');
   res.send('API is running...');
 });
 
 // App listening
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-// console.log('All ENV VARIABLES:', process.env);
+app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
 
 // Export app for testing
 module.exports = app;
