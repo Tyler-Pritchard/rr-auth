@@ -99,10 +99,22 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://www.google.com",
+        "https://www.gstatic.com",
+        "https://www.recaptcha.net"
+      ],
+      frameSrc: [
+        "https://www.google.com",
+        "https://www.recaptcha.net"
+      ],
+      imgSrc: ["'self'", "data:", "https://www.gstatic.com"],
     },
   })
 );
+
 
 // Rate limiting configuration
 const limiter = rateLimit({

@@ -48,3 +48,158 @@
 {"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-25T22:31:27.178Z"}
 {"level":"info","message":"Server running on port 5000","timestamp":"2024-09-25T22:31:27.197Z"}
 {"level":"info","message":"MongoDB connected","timestamp":"2024-09-25T22:31:27.671Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T22:32:51.708Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T22:40:41.468Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T22:58:29.973Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T22:59:19.531Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T22:59:53.532Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:00:00.586Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:00:20.873Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0,"timestamp":"2024-09-25T23:00:21.117Z","tokenProperties":{"action":"","androidPackageName":"","createTime":{"nanos":0,"seconds":"0"},"hostname":"","invalidReason":"MALFORMED","iosBundleId":"","valid":false}}
+{"level":"warn","message":"reCAPTCHA verification failed: MALFORMED","timestamp":"2024-09-25T23:00:21.117Z"}
+{"email":"johndoe@example.com","level":"info","message":"CAPTCHA verification for registration","recaptchaScore":null,"timestamp":"2024-09-25T23:00:21.117Z"}
+{"email":"johndoe@example.com","level":"info","message":"CAPTCHA verification failed during registration","timestamp":"2024-09-25T23:00:21.118Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:00:59.811Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:01:20.053Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:02:35.933Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0,"timestamp":"2024-09-25T23:02:36.024Z","tokenProperties":{"action":"","androidPackageName":"","createTime":{"nanos":0,"seconds":"0"},"hostname":"","invalidReason":"MALFORMED","iosBundleId":"","valid":false}}
+{"level":"warn","message":"reCAPTCHA verification failed: MALFORMED","timestamp":"2024-09-25T23:02:36.025Z"}
+{"email":"johndoe@example.com","level":"info","message":"CAPTCHA verification for registration","recaptchaScore":null,"timestamp":"2024-09-25T23:02:36.025Z"}
+{"email":"johndoe@example.com","level":"info","message":"CAPTCHA verification failed during registration","timestamp":"2024-09-25T23:02:36.025Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:03:26.437Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T23:03:26.465Z","userCount":1}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:03:31.681Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0,"timestamp":"2024-09-25T23:03:31.758Z","tokenProperties":{"action":"","androidPackageName":"","createTime":{"nanos":0,"seconds":"0"},"hostname":"","invalidReason":"MALFORMED","iosBundleId":"","valid":false}}
+{"level":"warn","message":"reCAPTCHA verification failed: MALFORMED","timestamp":"2024-09-25T23:03:31.758Z"}
+{"email":"johndoe@example.com","level":"info","message":"CAPTCHA verification for registration","recaptchaScore":null,"timestamp":"2024-09-25T23:03:31.758Z"}
+{"email":"johndoe@example.com","level":"info","message":"CAPTCHA verification failed during registration","timestamp":"2024-09-25T23:03:31.758Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:06:05.236Z"}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-25T23:06:51.164Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-25T23:06:51.184Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-25T23:06:51.737Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:06:58.134Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:15:09.618Z"}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-25T23:15:49.620Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-25T23:15:49.639Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-25T23:15:50.160Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:16:42.405Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:18:47.890Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:19:26.871Z"}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-25T23:32:57.100Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-25T23:32:57.121Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-25T23:32:57.817Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:33:44.420Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:48:25.647Z"}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-25T23:48:52.354Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-25T23:48:52.375Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-25T23:48:53.022Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:49:23.633Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:54:12.845Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-25T23:54:34.408Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-25T23:54:34.460Z","userCount":1}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-26T00:21:30.481Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-26T00:21:30.500Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-26T00:21:31.021Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-26T00:22:27.365Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-26T00:26:06.099Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:07:39.240Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T01:07:39.282Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:07:39.285Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T01:07:39.317Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:07:42.080Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T01:07:42.112Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:07:42.114Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T01:07:42.145Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:07:55.116Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T01:07:55.137Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:07:55.138Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T01:07:55.166Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:08:19.304Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:08:19.313Z"}
+{"error":"\"country\" is not allowed to be empty","level":"info","message":"User registration validation failed","timestamp":"2024-09-26T01:08:19.337Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:08:36.478Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:08:36.481Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0.8999999761581421,"timestamp":"2024-09-26T01:08:36.762Z","tokenProperties":{"action":"submit","androidPackageName":"","createTime":{"nanos":415000000,"seconds":"1727312875"},"hostname":"localhost","invalidReason":"INVALID_REASON_UNSPECIFIED","iosBundleId":"","valid":true}}
+{"email":"asdf@lkj.com","level":"info","message":"CAPTCHA verification for registration","recaptchaScore":0.8999999761581421,"timestamp":"2024-09-26T01:08:36.762Z"}
+{"level":"info","message":"Hashing password","timestamp":"2024-09-26T01:08:36.794Z"}
+{"level":"info","message":"Password successfully hashed","timestamp":"2024-09-26T01:08:36.872Z"}
+{"email":"asdf@lkj.com","level":"info","message":"User password hashed during registration","timestamp":"2024-09-26T01:08:38.062Z"}
+{"hashedPassword":"$2a$10$9wIvNt0b7CtFcoavhCv8D.zM88fZ4VJ6no3xp/okPXRnIcJMtoEJO","level":"info","message":"Login password comparison","plainPassword":"password","timestamp":"2024-09-26T01:08:38.063Z"}
+{"email":"asdf@lkj.com","level":"info","message":"New user registered successfully","timestamp":"2024-09-26T01:08:38.207Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:09:12.468Z"}
+{"level":"info","message":"User logged out","timestamp":"2024-09-26T01:09:12.469Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:09:13.269Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T01:09:13.299Z","userCount":2}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:09:13.307Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T01:09:13.342Z","userCount":2}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:09:26.406Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T01:09:26.408Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0.8999999761581421,"timestamp":"2024-09-26T01:09:26.544Z","tokenProperties":{"action":"login","androidPackageName":"","createTime":{"nanos":127000000,"seconds":"1727312953"},"hostname":"localhost","invalidReason":"INVALID_REASON_UNSPECIFIED","iosBundleId":"","valid":true}}
+{"level":"info","message":"LOGIN CAPTCHA Token:","score":0.8999999761581421,"timestamp":"2024-09-26T01:09:26.544Z","token":"03AFcWeA5yo5QkmYbKyB1GbnvakCc47U7Lo7T9DZkOq0Ni2wORcriygWT57e5vufzLSj3MLSjnYwcuh8t9mFBfHJvSejIZSXTj7g18GSaolRNHJbLCPIQsBlC63EluS2yZv4XxqAW6hTfRMtxZu8VUkdsiKP5PYMcY468_C6vqtzL-UknN4YhIR1f6bJzU7Jg4G4sQHx79NbagX9Kax8ZnJESaIK2NjAenAylPozMo1gZlZvantPo5QwGgWczV-UxiTIXhwGzmvpYr6NhDgUBpdwlm9jDQLVNWPQORzQxmNYrWYPNDdAZxEcXh64QQf6Dc47QFryyxjK6xdUEvKUr08H5A_6PA3jutMin54LhRGCW1poWOH5cPQ3Dd6yfgZx0NO0FwXmGiLX7zWC56sZ7BU_bvV88iDEe53j3Ss2UerLjEnj-96i6ty27rDepEsTywF-maRG18PO7AXW65xwgm5F7rRoBnAoNqmrdk1qfVflHjLiiF0p8flxWeFqaqPc6LtC_xM9O26sgwazZNgrdj4l2I3i9noEBDckWmCIF_nUIDXhtduE7y4sNhL83goBbXcM0orFw1qQr6LHQsG8w_qZl7o1TJwL7HUuQWVgZST0Gh-KsJxBWhe_EqL0CqR9JwrOMRZ2BrH_WuN50o-Lu_69_sBdV1X5IIPnIegARxumhSjGTVJhS28VWssLLK5AHTY-p6dEoc5Wqo4-LqXvY189OF2F4MYEGjl6jY7aEh3qyvlvv-ErZQMS6tcnZ9HXNSpT1hu99AHZoUTuptligSBERe3URb-Z7u92m17RayWGuIiTVepegtqnYflJzIethS5KNJ-OnO97wz06f_uNiF5LTpal9SOe-f-t708C6vJQ-J-q0j0Rj1HoabenM0vMJm6y5T8axPPjRY5X2vQdscsTk53-z_PQ_xRprFT6SOT7Xhn05AFVLUfpNDu022x2L1DgFmL5mTQvxWEbndIT6RFnfINKYaNc8OyJDrfycKIsNcW78pOjRE7LbgoNTkPUmlni36duo0ZUuLCd_m_oSCiijlHIqeQQ3Ot6EHHqvsYhynRGDDv9xt2oxh7tRttoLiw3neKYgAMks-G6JahidFsBbMW0dP_va8C7OgO0r8doF6iPaVqygAzvASRQxaAxzRAqhfszgcAzYBXKswnMgpw6tMiLc7S34gtkGtq9LAdkIgii_SmNUar4dVdd-euT4LXpn2hMH97rt9_PaN6Qa8YVvS_3gBxRFVoLIp34Dz-4f76agf__KHQIs9imGvYTmd65FwLl4iKq6HpP6GhuAB17WcN3GDBo6rbKs1ovZbOQaitKAf38mBhNYhQqC-CgmrGZo3wcB0Glrxa5xchysdRYsMPKppEKQnPfzTG2BwiAiDHn3dM9p93lzyLebkV6wOWlvutLGZNWNOdRV7ua8J3smlWIJZMlPxXuPCR99P5BGvMmpKtoWDq25AJdz_WJNCNo4zj9dhMlVO-f2ZcS21ti36Pn7nWNDxvuWVhNEZhnPMSjBI4Y-z6PeBJYfoko5tawM05APBrcdIVlsZQpfQzD3hMekpg5CagwDtuQWU_kyc5FGWjzvkrmkK9M_LUv-rfeDUmbvB0UHRUZV3tPdJ5z3Au2fwquXF_32cvRGbipwATEywgeK--kkzF0h7UczbpsZjjNAEohrQATewsJAi1RS_2G2im1uq2Ijtg9ksIfdzqfQMkSW0fORZSy6cknhuPwgBdC8kAgI736VfOO_jghIkUbO66_CWNxNHkVgXlbZk4pUAP17D-hl40KJNFjaxbTAJkcS_emVcX3q_v89XOo3AAPfEY0lhWU8-EqL69qqCNE0aVAEhO2UKeDNXRVy6oIDBEVvTZzoMpwPKDlLIQHtBcjjhsAWwRgQxxQsL2EsFAB97Z4-zBoJM_updQIgWj1PodQ2h5bzS0uXhljii4Dptq3q9xvH2UkpAl8UThs3vm0myATRcIYjKImIg5pxLQqnRtBOjmZ1c"}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"User found during login","timestamp":"2024-09-26T01:09:26.577Z"}
+{"hashedPassword":"$2a$10$UP2jyECxp5QXhrMRNfxFh.3KllcF7fpv12Fjs2J44YZMvEc7cZp1.","level":"info","message":"Login password comparison","plainPassword":"password","timestamp":"2024-09-26T01:09:26.578Z"}
+{"level":"info","message":"Comparing passwords","timestamp":"2024-09-26T01:09:26.578Z"}
+{"isMatch":false,"level":"info","message":"Password comparison completed","timestamp":"2024-09-26T01:09:26.696Z"}
+{"isMatch":false,"level":"info","message":"Password comparison result","timestamp":"2024-09-26T01:09:26.696Z"}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"Invalid password entered","timestamp":"2024-09-26T01:09:26.696Z"}
+{"level":"info","message":"Incoming Origin: undefined","timestamp":"2024-09-26T01:10:50.056Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0,"timestamp":"2024-09-26T01:10:50.160Z","tokenProperties":{"action":"","androidPackageName":"","createTime":{"nanos":0,"seconds":"0"},"hostname":"","invalidReason":"MALFORMED","iosBundleId":"","valid":false}}
+{"level":"warn","message":"reCAPTCHA verification failed: MALFORMED","timestamp":"2024-09-26T01:10:50.160Z"}
+{"email":"johndoe@example.com","level":"info","message":"CAPTCHA verification for registration","recaptchaScore":null,"timestamp":"2024-09-26T01:10:50.160Z"}
+{"email":"johndoe@example.com","level":"info","message":"CAPTCHA verification failed during registration","timestamp":"2024-09-26T01:10:50.160Z"}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-26T03:55:38.644Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-26T03:55:38.664Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-26T03:55:39.158Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T03:58:01.620Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T03:58:01.656Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T03:58:01.661Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T03:58:01.686Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T03:58:42.486Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T03:58:42.506Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T03:58:42.507Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T03:58:42.533Z","userCount":0}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-26T04:02:12.467Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-26T04:02:12.486Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-26T04:02:12.914Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T04:02:21.963Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T04:02:22.003Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T04:02:22.010Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T04:02:22.045Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T04:02:29.448Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T04:02:29.479Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T04:02:29.482Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T04:02:29.512Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T04:02:53.702Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T04:02:53.727Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T04:02:53.732Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T04:02:53.754Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:10:27.585Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:10:27.632Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:10:27.655Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:10:27.679Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:11:09.054Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:11:09.074Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:11:09.076Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:11:09.095Z","userCount":0}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-26T05:53:45.970Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-26T05:53:46.004Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-26T05:53:46.517Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:53:54.835Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:53:54.875Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:53:54.884Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:53:54.912Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:55:08.950Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:55:08.972Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:55:08.974Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:55:09.004Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:55:15.027Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:55:15.056Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T05:55:15.058Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T05:55:15.237Z","userCount":0}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-09-26T06:11:02.945Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-09-26T06:11:02.964Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-09-26T06:11:03.415Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T06:11:13.335Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T06:11:13.370Z","userCount":0}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-09-26T06:11:13.378Z"}
+{"level":"info","message":"Total users count retrieved","timestamp":"2024-09-26T06:11:13.409Z","userCount":0}

@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const { resetPasswordSchema, updatePasswordSchema } = require('../validation/schemas');
 const authLimiter = require('../middleware/authLimiter');
-const transporter = require('../utils/emailTransporter');
+const createTransporter = require('../utils/emailTransporter'); 
 const User = require('../models/User');
 const { verifyRecaptchaToken } = require('../utils/recaptcha');
 const logger = require('../utils/logger');
@@ -46,6 +46,9 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
 
         const resetURL = `https://robrich.band/reset-password?token=${resetToken}`;
 
+        // Get the transporter asynchronously
+        const transporter = await createTransporter();
+
         // Send the email with the reset link
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -64,6 +67,7 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
 
 // @route   POST /api/password/reset-password
 // @desc    Reset password using token
