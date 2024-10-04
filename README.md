@@ -74,7 +74,7 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
   ```
     npx nodemon server.js
   ```
-  The server will start on http://localhost:5000.
+  The server will start on ```http://localhost:5000```.
 
 ## Configuration
 
@@ -94,8 +94,8 @@ In your ```.env``` file, include the following variables:
 
 ### User Registration
 
-- Endpoint: /api/users/register
-- Method: POST
+- Endpoint: ```/api/users/register```
+- Method: ```POST```
 - Body Parameters:
 ```
 {
@@ -111,8 +111,8 @@ In your ```.env``` file, include the following variables:
 ```
 
 ### User Login
-- Endpoint: /api/auth/login
-- Method: POST
+- Endpoint: ```/api/auth/login```
+- Method: ```POST```
 - Body Parameters:
 ```
 {
@@ -124,8 +124,8 @@ In your ```.env``` file, include the following variables:
 ```
 
 ### Forgot Password
-- Endpoint: /api/password/forgot-password
-- Method: POST
+- Endpoint: ```/api/password/forgot-password```
+- Method: ```POST```
 - Body Parameters:
 ```
 {
@@ -135,8 +135,8 @@ In your ```.env``` file, include the following variables:
 ```
 
 ### Reset Password
-- Endpoint: /api/password/reset-password
-- Method: POST
+- Endpoint: ```/api/password/reset-password```
+- Method: ```POST```
 - Body Parameters:
 ```
 {
@@ -146,8 +146,8 @@ In your ```.env``` file, include the following variables:
 ```
 
 ### User Count
-- Endpoint: /api/users/count
-- Method: GET
+- Endpoint: ```/api/users/count```
+- Method: ```GET```
 - Description: Returns the total number of registered users.
 
 ## Security
@@ -161,6 +161,7 @@ This project uses ```Jest``` for testing. To run the tests:
 ```
 npm test
 ```
+The Jest is a lie.
 
 ### Test Features
 - In-memory MongoDB for isolated testing.
@@ -174,7 +175,7 @@ Contributions are welcome! Please follow the standard Git workflow:
 3. Submit a pull request for review.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ## Contact
 For any questions or support, please reach out:
