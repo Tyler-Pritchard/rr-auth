@@ -1,0 +1,74 @@
+userRoutes.js (User-related routes) (userRoutes)
+
+	•	GET /api/users/count
+
+	◦	Test Case 1: Verify the total number of users is retrieved successfully.
+	▪	Expected Result: Status 200, JSON response with totalUsers.
+
+	◦	Test Case 2: Handle server error when fetching users.
+	▪	Expected Result: Status 500, error message.
+
+	•	POST /api/users/register
+
+	◦	Test Case 1: Successfully register a new user.
+	▪	Expected Result: Status 201, success message.
+
+	◦	Test Case 2: Fail to register when required fields are missing or invalid.
+	▪	Expected Result: Status 400, validation error message.
+
+	◦	Test Case 3: Attempt to register an already existing user.
+	▪	Expected Result: Status 400, "User already exists" error message.
+
+	◦	Test Case 4: CAPTCHA failure during registration.
+	▪	Expected Result: Status 400, "CAPTCHA verification failed".
+
+2. authRoutes.js (Authentication-related routes) (authRoutes)
+
+	•	POST /api/auth/login
+	◦	Test Case 1: Successfully log in a user.
+	▪	Expected Result: Status 200, JSON response with token.
+
+	◦	Test Case 2: Fail to log in with incorrect email or password.
+	▪	Expected Result: Status 400, "Incorrect email or password" error message.
+
+	◦	Test Case 3: CAPTCHA failure during login.
+	▪	Expected Result: Status 400, "CAPTCHA verification failed".
+
+	◦	Test Case 4: Validate missing fields in the login request.
+	▪	Expected Result: Status 400, validation error message.
+
+	•	POST /api/auth/logout
+
+	◦	Test Case 1: Successfully log out the user.
+	▪	Expected Result: Status 200, success message.
+
+3. passwordRoutes.js (Password reset-related routes) (passwordRoutes)
+
+	•	POST /api/password/forgot-password
+
+	◦	Test Case 1: Successfully request a password reset.
+	▪	Expected Result: Status 200, success message.
+
+	◦	Test Case 2: Fail to request a reset for a non-existent email.
+	▪	Expected Result: Status 400, "No account with that email found".
+
+	◦	Test Case 3: CAPTCHA failure during password reset request.
+	▪	Expected Result: Status 400, "CAPTCHA verification failed".
+
+	◦	Test Case 4: Validation failure (e.g., missing email).
+	▪	Expected Result: Status 400, validation error message.
+
+	•	POST /api/password/reset-password
+
+	◦	Test Case 1: Successfully reset the password using a valid token.
+	▪	Expected Result: Status 200, success message.
+
+	◦	Test Case 2: Fail to reset the password with an invalid or expired token.
+	▪	Expected Result: Status 400, "Invalid token".
+	
+	◦	Test Case 3: Validation failure (e.g., missing token or password).
+	▪	Expected Result: Status 400, validation error message.
+
+Token that always returns a score of 0.9: 03AFcWeA67numet511VfizcEcLzgWiUbQzQ-vu8S4Bhmv40
+Token that always returns a score of 0.1: 03AFcWeA6hoWKOUgoQFUMnuMA2f5NGDo7qgp2Mph6VtHxNej
+
