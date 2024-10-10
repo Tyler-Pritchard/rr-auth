@@ -1,129 +1,157 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-const fs = require('fs');
-const path = require('path');
-const cors = require('cors');
-const morgan = require('morgan');
-const logger = require('./utils/logger');
+/**
+ * Server Configuration and Initialization File
+ * 
+ * This file is the entry point for the server. It initializes the Express app, sets up middlewares,
+ * connects to MongoDB, and defines key application routes. Configuration settings such as Google Cloud
+ * credentials and MongoDB URIs are managed through environment variables using the `dotenv` library.
+ * 
+ * Key Features:
+ * - Secure configurations using Helmet and CORS
+ * - Rate limiting and security best practices
+ * - Detailed logging using Winston with Morgan integration
+ * - Environment-specific setups and conditionally enabled features
+ * 
+ * Author: Tyler Pritchard
+ * License: MIT
+ */
 
-// Import route files
+// Import core libraries and dependencies
+const express = require('express'); // Core web server framework for Node.js
+const mongoose = require('mongoose'); // MongoDB ODM for database interactions
+const dotenv = require('dotenv'); // Load environment variables from a `.env` file
+const helmet = require('helmet'); // Security middleware to set HTTP headers
+const rateLimit = require('express-rate-limit'); // Middleware to limit repeated requests
+const fs = require('fs'); // Node.js file system module
+const path = require('path'); // Utility module for working with file paths
+const cors = require('cors'); // Middleware for handling Cross-Origin Resource Sharing
+const morgan = require('morgan'); // HTTP request logger
+const logger = require('./utils/logger'); // Custom logger using Winston
+
+// Import custom route files
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const passwordRoutes = require('./routes/passwordRoutes');
 const mockCaptchaRoutes = require('./routes/mockCaptcha');
 
+// Load environment variables from the `.env` file
 dotenv.config();
 
+// Initialize the Express app
 const app = express();
 
-// Decode Base64 string to JSON
+/**
+ * Google Cloud Credentials Setup
+ * 
+ * If Google Cloud credentials are provided as a Base64 string, decode and save them to a file.
+ * The application will use this file for authenticating API requests.
+ */
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
-    const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
-    const jsonCredentials = Buffer.from(base64Credentials, 'base64').toString('utf8');
+  const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
+  const jsonCredentials = Buffer.from(base64Credentials, 'base64').toString('utf8');
 
-    // Write JSON to a temporary file
-    const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
-    fs.writeFileSync(tempFilePath, jsonCredentials);
-    logger.info("Google Cloud credentials decoded and saved to file");
+  // Write the decoded JSON credentials to a temporary file
+  const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
+  fs.writeFileSync(tempFilePath, jsonCredentials);
+  logger.info("Google Cloud credentials decoded and saved to file");
 
-    // Set the environment variable to the path of the temporary file
-    process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
-
-  } else {
-    logger.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is not set.");
-    process.exit(1);
+  // Set the environment variable to the path of the temporary file
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
+} else {
+  logger.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is not set.");
+  process.exit(1);
 }
 
-// Enable CORS for requests from specified origins
+/**
+ * CORS Configuration
+ * 
+ * Define allowed origins based on the environment. Production URLs are restricted,
+ * while localhost is used for development and testing.
+ */
 const allowedOrigins = process.env.NODE_ENV === 'production' ? [
   'https://rrsite-git-main-tylers-projects-06089682.vercel.app',
   'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app',
   'https://www.robrich.band'
 ] : ['http://localhost:3000'];
 
-
-// Create a stream for Morgan to use Winston
-const stream = {
-  write: (message) => logger.info(message.trim()),  // Use Winston to log Morgan's output
-};
-
-// Morgan for HTTP logging
-app.use(morgan('combined')); 
-
-// CORS middleware
+/**
+ * Middleware: Setup CORS with Dynamic Origin Handling
+ * 
+ * CORS settings are applied to handle cross-origin requests, allowing only specified
+ * domains to interact with the server.
+ */
 app.use(cors({
   origin: function (origin, callback) {
-    logger.info(`Incoming Origin: ${origin || 'undefined'}`);  // Log incoming origin for debugging CORS issues
-
-    // Allow requests from Postman or other server-to-server tools that may not have an origin
+    logger.info(`Incoming Origin: ${origin || 'undefined'}`);
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);  // If origin is allowed, proceed with the request
+      callback(null, true);
     } else {
       logger.error(`CORS Error: Origin not allowed - ${origin}`);
-      callback(new Error('Not allowed by CORS'));  // Reject the request if origin is not allowed
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true,  // Allow credentials (cookies, etc.)
+  credentials: true, // Allow credentials such as cookies
 }));
 
-// Middleware to handle preflight requests and set necessary CORS headers
+/**
+ * Middleware: Preflight Request Handler
+ * 
+ * Custom handler for OPTIONS preflight requests, dynamically setting CORS headers.
+ */
 app.use((req, res, next) => {
   const origin = req.headers.origin || '*';
-  
-  // Set dynamic Access-Control-Allow-Origin based on the environment
   if (allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
   }
 
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
-  res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials (cookies)
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
 
-  // If the request is a preflight request (OPTIONS), return a 200 status
   if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
+    return res.sendStatus(200); // Short-circuit OPTIONS requests
   }
-  // Pass to next middleware or route handler
   next();
 });
 
-// Enable trust proxy
+// Trust the first proxy (important for deployment behind load balancers)
 app.set('trust proxy', 1);
 
+// Enable Express to parse JSON payloads
 app.use(express.json());
 
+/**
+ * Middleware: Helmet Security Headers
+ * 
+ * Use Helmet to set various HTTP headers for securing the application.
+ */
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        "https://www.google.com",
-        "https://www.gstatic.com",
-        "https://www.recaptcha.net"
-      ],
-      frameSrc: [
-        "https://www.google.com",
-        "https://www.recaptcha.net"
-      ],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com", "https://www.recaptcha.net"],
+      frameSrc: ["https://www.google.com", "https://www.recaptcha.net"],
       imgSrc: ["'self'", "data:", "https://www.gstatic.com"],
     },
   })
 );
 
-
-// Rate limiting configuration
+/**
+ * Rate Limiting Configuration
+ * 
+ * Limit each IP to 100 requests per 15-minute window to prevent abuse.
+ */
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100,
 });
 app.use(limiter);
 
-// Error Handlers for Uncaught Exceptions and Unhandled Rejections
+// Morgan HTTP request logging integrated with Winston
+app.use(morgan('combined', { stream: { write: (message) => logger.info(message.trim()) } }));
+
+/**
+ * Global Error Handling for Uncaught Exceptions and Unhandled Rejections
+ */
 process.on('uncaughtException', (err) => {
   logger.error('Uncaught Exception:', { error: err.message, stack: err.stack });
   process.exit(1);
@@ -134,28 +162,32 @@ process.on('unhandledRejection', (reason, promise) => {
   process.exit(1);
 });
 
-// Conditionally connect to MongoDB only if not in test environment
+/**
+ * Database Connection
+ * 
+ * Only connect to MongoDB if not in a test environment. Log the connection status.
+ */
 if (process.env.NODE_ENV !== 'test') {
   mongoose.connect(process.env.MONGO_URI)
-  .then(() => logger.info('MongoDB connected'))
-  .catch(err => logger.error('MongoDB connection error', { error: err.message }));
+    .then(() => logger.info('MongoDB connected'))
+    .catch(err => logger.error('MongoDB connection error', { error: err.message }));
 }
 
-// Use route files
+// Use custom-defined routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/password', passwordRoutes);
 app.use('/api/mock-recaptcha', mockCaptchaRoutes);
 
-// Healthcheck route
+// Healthcheck route for monitoring
 app.get('/', (req, res) => {
   logger.info('Healthcheck endpoint accessed');
   res.send('API is running...');
 });
 
-// App listening
+// Start the server and listen on the specified port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
 
-// Export app for testing
+// Export the app for testing
 module.exports = app;
