@@ -21,15 +21,12 @@ router.get('/count', async (req, res) => {
   }
 });
 
-// @route   POST /api/users/register
-// @desc    Register a new user
-// @access  Public
 router.post('/register', authLimiter, async (req, res) => {
   const { error } = registerSchema.validate(req.body);
   if (error) {
     logger.info('User registration validation failed', { error: error.details[0].message });
-    return res.status(400).json({ msg: error.details[0].message })
-  };
+    return res.status(400).json({ msg: error.details[0].message });
+  }
 
   const { firstName, lastName, username, email, password, dateOfBirth, country, isSubscribed, captchaToken } = req.body;
 
@@ -50,24 +47,19 @@ router.post('/register', authLimiter, async (req, res) => {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
-    // Create a new user
+    // Create a new user (save plain text password)
     user = new User({
       firstName,
       lastName,
       username,
       email,
-      password: await hashPassword(password),
+      password,
       dateOfBirth: new Date(dateOfBirth),
       country,
       isSubscribed,
       captchaToken
     });
 
-    logger.info('User password hashed during registration', { email });
-    logger.info('Login password comparison', { plainPassword: password, hashedPassword: user.password });
-
-
-    // Save the new user
     await user.save();
     logger.info('New user registered successfully', { email });
 
@@ -77,5 +69,6 @@ router.post('/register', authLimiter, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
 
 module.exports = router;
