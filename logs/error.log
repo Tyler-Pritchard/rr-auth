@@ -1,3 +1,4 @@
 {"error":"hashedPassword is not defined","level":"error","message":"Error during user registration","timestamp":"2024-10-09T08:47:28.036Z"}
 {"error":"hashedPassword is not defined","level":"error","message":"Error during user registration","timestamp":"2024-10-09T08:48:52.030Z"}
 {"error":"hashedPassword is not defined","level":"error","message":"Error during user registration","timestamp":"2024-10-09T08:57:41.678Z"}
+{"error":"3 INVALID_ARGUMENT: At least one of the following Assessment fields is required: event.token, private_password_leak_verification, event.express, event.firewall_policy_evaluation.","level":"error","message":"Error during reCAPTCHA verification","timestamp":"2024-10-10T06:28:38.986Z"}
