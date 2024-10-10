@@ -567,3 +567,30 @@
 {"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-10-10T06:38:26.934Z","userCount":1}
 {"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-10-10T06:38:26.940Z"}
 {"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-10-10T06:38:26.976Z","userCount":1}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-10-10T06:45:01.728Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-10-10T06:45:01.748Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-10-10T06:45:02.192Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-10-10T06:45:27.457Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-10-10T06:45:27.493Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-10-10T06:45:27.501Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-10-10T06:45:27.523Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-10-10T06:45:38.736Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-10-10T06:45:38.740Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0.8999999761581421,"timestamp":"2024-10-10T06:45:38.960Z","tokenProperties":{"action":"login","androidPackageName":"","createTime":{"nanos":210000000,"seconds":"1728542730"},"hostname":"localhost","invalidReason":"INVALID_REASON_UNSPECIFIED","iosBundleId":"","valid":true}}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"CAPTCHA verification during login","recaptchaScore":0.8999999761581421,"timestamp":"2024-10-10T06:45:38.960Z"}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"User found during login","storedHash":"$2a$10$eJEzEl.P14LPJchtVuQ0ZOi5CwCBf4tQ4ouHOPh0mh/YSt.Jcc.u2","timestamp":"2024-10-10T06:45:38.988Z"}
+{"level":"info","message":"Comparing passwords","timestamp":"2024-10-10T06:45:38.989Z"}
+{"isMatch":true,"level":"info","message":"Password comparison completed","timestamp":"2024-10-10T06:45:39.064Z"}
+{"isMatch":true,"level":"info","message":"Password comparison result","timestamp":"2024-10-10T06:45:39.064Z"}
+{"email":"pritchard.tyler@gmail.com","level":"info","message":"User successfully logged in","timestamp":"2024-10-10T06:45:39.066Z","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjcwNzc1NzI2YTEzN2Y4ODc0MTczNDQwIn0sImlhdCI6MTcyODU0MjczOSwiZXhwIjoxNzI4NTQ2MzM5fQ.e9m8FDcyGh1AaeBRE7jo_MOgXR86gs37gZSCGXdJ1sQ"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-10-10T06:45:42.892Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-10-10T06:45:42.919Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-10-10T06:45:42.921Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-10-10T06:45:42.949Z","userCount":1}
+{"level":"info","message":"Google Cloud credentials decoded and saved to file","timestamp":"2024-10-10T06:48:09.972Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-10-10T06:48:09.990Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-10-10T06:48:10.402Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-10-10T06:48:17.535Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-10-10T06:48:17.564Z","userCount":1}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-10-10T06:48:17.570Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-10-10T06:48:17.590Z","userCount":1}
