@@ -70,7 +70,7 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
 const allowedOrigins = process.env.NODE_ENV === 'production' ? [
   'https://rrsite-git-main-tylers-projects-06089682.vercel.app',
   'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app',
-  'https://www.robrich.band'
+  'https://www.robrich.band', 'https://rrsite-9p3np20zt-tylers-projects-06089682.vercel.app'
 ] : ['http://localhost:3000'];
 
 /**
@@ -176,7 +176,7 @@ if (process.env.NODE_ENV !== 'test') {
 // Use custom-defined routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/password', passwordRoutes);
+app.use('/password', passwordRoutes);
 app.use('/api/mock-recaptcha', mockCaptchaRoutes);
 
 // Healthcheck route for monitoring
