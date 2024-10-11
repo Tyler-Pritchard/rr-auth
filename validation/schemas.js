@@ -150,7 +150,7 @@ const loginSchema = Joi.object({
  * Schema: Password Reset Request
  * 
  * This schema validates the structure for requesting a password reset link.
- * It only requires a valid `email` field.
+ * It requires a valid `email` and `captchaToken` field.
  */
 const resetPasswordSchema = Joi.object({
   email: Joi.string()
@@ -159,6 +159,13 @@ const resetPasswordSchema = Joi.object({
     .messages({
       'string.email': 'Must be a valid email address',
       'string.empty': 'Email is required',
+    }),
+  
+  captchaToken: Joi.string()
+    .required()
+    .messages({
+      'string.base': 'CAPTCHA token should be a string',
+      'any.required': 'CAPTCHA token is required',
     }),
 });
 

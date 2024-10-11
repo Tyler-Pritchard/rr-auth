@@ -16,6 +16,7 @@ const { hashPassword } = require('../utils/bcrypt');
 
 const router = express.Router(); // Create a new Express Router instance
 
+
 /**
  * @route   POST /api/password/forgot-password
  * @desc    Send an email with a password reset link to the provided email address.
@@ -31,6 +32,15 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
 
   // Extract email and CAPTCHA token from the request body
   const { email, captchaToken } = req.body;
+
+  // Log the received email and CAPTCHA token for better debugging
+  logger.info('Received email and CAPTCHA token for forgot password', { email, captchaToken });
+
+  // Check if CAPTCHA token is defined and non-empty
+  if (!captchaToken || captchaToken.trim() === "") {
+    logger.error('CAPTCHA token is missing or empty', { email, captchaToken });
+    return res.status(400).json({ msg: 'CAPTCHA token is missing or empty' });
+  }
 
   try {
     // Verify reCAPTCHA token for additional security
@@ -80,6 +90,7 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+  
 
 /**
  * @route   POST /api/password/reset-password

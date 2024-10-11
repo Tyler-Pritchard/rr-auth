@@ -53,6 +53,11 @@ async function createTransporter() {
     // For production, configure Gmail with OAuth2 authentication
     try {
       const accessToken = await oauth2Client.getAccessToken(); // Retrieve the access token using OAuth2
+      console.log("Access Token:", accessToken);
+
+      if (!accessToken || !accessToken.token) {
+        throw new Error('Invalid access token. Check OAuth2 credentials.');
+      }
 
       // Return a Nodemailer transporter using the Gmail service and OAuth2 credentials
       return nodemailer.createTransport({

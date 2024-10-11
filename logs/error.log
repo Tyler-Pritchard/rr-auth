@@ -1,4 +1,2 @@
-{"error":"hashedPassword is not defined","level":"error","message":"Error during user registration","timestamp":"2024-10-09T08:47:28.036Z"}
-{"error":"hashedPassword is not defined","level":"error","message":"Error during user registration","timestamp":"2024-10-09T08:48:52.030Z"}
-{"error":"hashedPassword is not defined","level":"error","message":"Error during user registration","timestamp":"2024-10-09T08:57:41.678Z"}
-{"error":"3 INVALID_ARGUMENT: At least one of the following Assessment fields is required: event.token, private_password_leak_verification, event.express, event.firewall_policy_evaluation.","level":"error","message":"Error during reCAPTCHA verification","timestamp":"2024-10-10T06:28:38.986Z"}
+{"error":"No refresh token or refresh handler callback is set.","level":"error","message":"Error fetching access token for Gmail OAuth2","timestamp":"2024-10-11T07:48:34.345Z"}
+{"error":"Failed to create transporter due to OAuth2 token error","level":"error","message":"Server error during forgot password operation","timestamp":"2024-10-11T07:48:34.345Z"}
