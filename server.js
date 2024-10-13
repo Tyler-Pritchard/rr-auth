@@ -42,23 +42,26 @@ const app = express();
 /**
  * Google Cloud Credentials Setup
  * 
- * If Google Cloud credentials are provided as a Base64 string, decode and save them to a file.
- * The application will use this file for authenticating API requests.
+ * If using Google Cloud APIs other than Gmail (e.g., for Storage, Vision), 
+ * set up the credentials. For Gmail, only OAuth2 credentials (CLIENT_ID, 
+ * CLIENT_SECRET, REFRESH_TOKEN) are needed.
  */
-if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
-  const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
-  const jsonCredentials = Buffer.from(base64Credentials, 'base64').toString('utf8');
+if (process.env.USE_GCLOUD_SERVICE_ACCOUNT === 'true') {
+  if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
+    const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
+    const jsonCredentials = Buffer.from(base64Credentials, 'base64').toString('utf8');
 
-  // Write the decoded JSON credentials to a temporary file
-  const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
-  fs.writeFileSync(tempFilePath, jsonCredentials);
-  logger.info("Google Cloud credentials decoded and saved to file");
+    // Write the decoded JSON credentials to a temporary file
+    const tempFilePath = path.join(__dirname, 'gcloud-credentials.json');
+    fs.writeFileSync(tempFilePath, jsonCredentials);
+    logger.info("Google Cloud credentials decoded and saved to file");
 
-  // Set the environment variable to the path of the temporary file
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
-} else {
-  logger.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is not set.");
-  process.exit(1);
+    // Set the environment variable to the path of the temporary file
+    process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
+  } else {
+    logger.error("ERROR: The GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is not set.");
+    process.exit(1);
+  }
 }
 
 /**

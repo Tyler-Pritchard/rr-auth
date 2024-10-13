@@ -6,3 +6,9 @@
 {"error":"Failed to create transporter due to OAuth2 token error","level":"error","message":"Server error during forgot password operation","timestamp":"2024-10-13T04:34:47.344Z"}
 {"error":"No refresh token or refresh handler callback is set.","level":"error","message":"Error fetching access token for Gmail OAuth2","timestamp":"2024-10-13T04:42:21.586Z"}
 {"error":"Failed to create transporter due to OAuth2 token error","level":"error","message":"Server error during forgot password operation","timestamp":"2024-10-13T04:42:21.587Z"}
+{"error":"No refresh token or refresh handler callback is set.","level":"error","message":"Error fetching access token for Gmail OAuth2","timestamp":"2024-10-13T04:58:26.883Z"}
+{"error":"Failed to create transporter due to OAuth2 token error","level":"error","message":"Server error during forgot password operation","timestamp":"2024-10-13T04:58:26.883Z"}
+{"error":"No refresh token or refresh handler callback is set.","level":"error","message":"Error fetching access token for Gmail OAuth2","timestamp":"2024-10-13T05:06:13.993Z"}
+{"error":"Failed to create transporter due to OAuth2 token error","level":"error","message":"Server error during forgot password operation","timestamp":"2024-10-13T05:06:13.993Z"}
+{"error":"No refresh token or refresh handler callback is set.","level":"error","message":"Error fetching access token for Gmail OAuth2","timestamp":"2024-10-13T05:20:37.878Z"}
+{"error":"Failed to create transporter due to OAuth2 token error","level":"error","message":"Server error during forgot password operation","timestamp":"2024-10-13T05:20:37.878Z"}

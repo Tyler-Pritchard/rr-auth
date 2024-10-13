@@ -55,7 +55,7 @@ async function createTransporter() {
       const accessToken = await oauth2Client.getAccessToken(); // Retrieve the access token using OAuth2
       console.log("Access Token:", accessToken);
 
-      if (!accessToken || !accessToken.token) {
+      if (!accessToken) {
         throw new Error('Invalid access token. Check OAuth2 credentials.');
       }
 
@@ -68,7 +68,7 @@ async function createTransporter() {
           clientId: process.env.CLIENT_ID,     // OAuth2 Client ID
           clientSecret: process.env.CLIENT_SECRET, // OAuth2 Client Secret
           refreshToken: process.env.REFRESH_TOKEN, // OAuth2 Refresh Token
-          accessToken: accessToken.token,      // The newly retrieved access token
+          accessToken: accessToken,      // The newly retrieved access token
         },
       });
     } catch (error) {
