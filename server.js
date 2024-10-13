@@ -176,7 +176,7 @@ if (process.env.NODE_ENV !== 'test') {
 // Use custom-defined routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/password', passwordRoutes);
+app.use('/api/password', passwordRoutes);
 app.use('/api/mock-recaptcha', mockCaptchaRoutes);
 
 // Healthcheck route for monitoring
