@@ -144,21 +144,32 @@ app.use(
         "https://www.google.com", 
         "https://www.gstatic.com", 
         "https://www.recaptcha.net"
-      ], // Allow Google scripts
+      ],
+      scriptSrcElem: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://www.google.com",
+        "https://www.gstatic.com",
+        "https://www.recaptcha.net"
+      ],
       styleSrc: [
         "'self'",
         "'unsafe-inline'",
         "https://fonts.googleapis.com"
-      ], // Allow Google Fonts
+      ],
+      styleSrcElem: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com"
+      ],
       fontSrc: [
         "'self'",
         "https://fonts.gstatic.com"
-      ], // Allow Google Fonts
-      imgSrc: ["'self'", "data:", "https://www.gstatic.com"], // Allow images
+      ],
+      imgSrc: ["'self'", "data:", "https://www.gstatic.com"],
     },
   })
 );
-
 
 /**
  * Rate Limiting Configuration
