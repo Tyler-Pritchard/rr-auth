@@ -132,7 +132,12 @@ app.use(
     directives: {
       defaultSrc: ["'self'"],
       connectSrc: ["'self'", "https://rr-auth-production.up.railway.app"], // Allow API calls to your backend
-      frameSrc: ["'self'", "https://cdn.knightlab.com", "https://www.google.com", "https://www.recaptcha.net"],
+      frameSrc: [
+        "'self'",
+        "https://cdn.knightlab.com", 
+        "https://www.google.com", 
+        "https://www.recaptcha.net"
+      ], // Allow iframe from Knight Lab
       scriptSrc: [
         "'self'",
         "'unsafe-inline'", 
@@ -149,7 +154,7 @@ app.use(
         "'self'",
         "https://fonts.gstatic.com"
       ], // Allow Google Fonts
-      imgSrc: ["'self'", "data:", "https://www.gstatic.com"], // Adjust based on image sources
+      imgSrc: ["'self'", "data:", "https://www.gstatic.com"], // Allow images
     },
   })
 );
