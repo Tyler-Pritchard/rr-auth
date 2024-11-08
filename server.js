@@ -142,10 +142,10 @@ app.use((req, res, next) => {
     "default-src *; " +
     "script-src * 'unsafe-inline' 'unsafe-eval'; " +
     "style-src * 'unsafe-inline'; " +
-    "img-src * data:; " +
     "font-src *; " +
     "connect-src *; " +
-    "frame-src *;"
+    "frame-src *; " +
+    "img-src * data:;"
   );
   next();
 });
