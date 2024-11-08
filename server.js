@@ -139,13 +139,13 @@ app.use(
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; " +
-    "connect-src 'self' https://rr-auth-production.up.railway.app; " + // Backend API
-    "frame-src 'self' https://cdn.knightlab.com https://www.google.com https://www.recaptcha.net; " + // Allow iFrames
-    "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://www.recaptcha.net; " + // Allow Google scripts and reCAPTCHA
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " + // Google Fonts
-    "font-src 'self' https://fonts.gstatic.com; " + // Google Fonts
-    "img-src 'self' data: https://www.gstatic.com https://cdn.knightlab.com;" // Images
+    "default-src *; " +
+    "script-src * 'unsafe-inline' 'unsafe-eval'; " +
+    "style-src * 'unsafe-inline'; " +
+    "img-src * data:; " +
+    "font-src *; " +
+    "connect-src *; " +
+    "frame-src *;"
   );
   next();
 });
