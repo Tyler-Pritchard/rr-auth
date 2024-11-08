@@ -140,14 +140,12 @@ app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
     "default-src 'self'; " +
-    "connect-src 'self' https://rr-auth-production.up.railway.app; " + // Allow backend API
-    "frame-src 'self' https://cdn.knightlab.com https://www.google.com https://www.gstatic.com; " + // Allow Knight Lab and reCAPTCHA
+    "connect-src 'self' https://rr-auth-production.up.railway.app; " + // Backend API
+    "frame-src 'self' https://cdn.knightlab.com https://www.google.com https://www.recaptcha.net; " + // Allow iFrames
     "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://www.recaptcha.net; " + // Allow Google scripts and reCAPTCHA
-    "script-src-elem 'self' https://www.google.com https://www.gstatic.com https://www.recaptcha.net; " + // Allow inline scripts from specific sources
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " + // Allow Google Fonts
-    "style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; " + // Allow Google Fonts for style elements
-    "font-src 'self' https://fonts.gstatic.com; " + // Allow Google Fonts
-    "img-src 'self' data: https://www.gstatic.com;" // Allow images from self and data URIs
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " + // Google Fonts
+    "font-src 'self' https://fonts.gstatic.com; " + // Google Fonts
+    "img-src 'self' data: https://www.gstatic.com https://cdn.knightlab.com;" // Images
   );
   next();
 });
