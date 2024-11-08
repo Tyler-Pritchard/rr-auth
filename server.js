@@ -207,3 +207,4 @@ app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
 
 // Export the app for testing
 module.exports = app;
+
