@@ -132,9 +132,9 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        connectSrc: ["'self'", "https://rr-auth-production.up.railway.app"], // Allow API calls to your backend
+        connectSrc: ["'self'", "https://rr-auth-production.up.railway.app"], // Backend API
         frameSrc: ["'self'", "https://cdn.knightlab.com", "https://www.google.com", "https://www.recaptcha.net"], // Allow iframe sources
-        scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com", "https://www.recaptcha.net"], // Google reCAPTCHA
+        scriptSrc: ["'self'", "https://www.google.com", "https://www.gstatic.com", "https://www.recaptcha.net"], // Google reCAPTCHA
         scriptSrcElem: ["'self'", "https://www.google.com", "https://www.gstatic.com", "https://www.recaptcha.net"], // Allow reCAPTCHA and Google scripts
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"], // Allow Google Fonts
         styleSrcElem: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"], // Allow inline styles and Google Fonts specifically
