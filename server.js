@@ -132,13 +132,28 @@ app.use(
     directives: {
       defaultSrc: ["'self'"],
       connectSrc: ["'self'", "https://rr-auth-production.up.railway.app"], // Allow API calls to your backend
-      frameSrc: ["'self'", "https://cdn.knightlab.com", "https://www.google.com", "https://www.gstatic.com"], // Allow iframe from Knight Lab
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com", "https://www.recaptcha.net"], // Allow Google scripts if needed
-      styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles if necessary
+      frameSrc: ["'self'", "https://cdn.knightlab.com", "https://www.google.com", "https://www.recaptcha.net"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'", 
+        "https://www.google.com", 
+        "https://www.gstatic.com", 
+        "https://www.recaptcha.net"
+      ], // Allow Google scripts
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com"
+      ], // Allow Google Fonts
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com"
+      ], // Allow Google Fonts
       imgSrc: ["'self'", "data:", "https://www.gstatic.com"], // Adjust based on image sources
     },
   })
 );
+
 
 /**
  * Rate Limiting Configuration
