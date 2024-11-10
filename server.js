@@ -144,7 +144,7 @@ app.use((req, res, next) => {
     "style-src * 'unsafe-inline'; " +
     "font-src *; " +
     "connect-src *; " +
-    "frame-src *; " +
+    "frame-src * https://cdn.knightlab.com; " +
     "img-src * data:;"
   );
   next();
