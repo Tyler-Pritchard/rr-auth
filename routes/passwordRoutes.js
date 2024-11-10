@@ -44,7 +44,7 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
 
   try {
     // Verify reCAPTCHA token for additional security
-    const recaptchaScore = await verifyRecaptchaToken(captchaToken);
+    const recaptchaScore = await verifyRecaptchaToken(captchaToken, 'forgot_password');
     logger.info('CAPTCHA verification during forgot password', { email, recaptchaScore });
 
     // Reject if CAPTCHA verification fails

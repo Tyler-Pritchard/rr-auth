@@ -46,13 +46,13 @@ async function verifyRecaptchaToken(token) {
 
   // Create an assessment request object with the required fields
   const request = {
+    parent: projectPath,
     assessment: {
       event: {
         token: token,                 // The reCAPTCHA token provided by the client
         siteKey: recaptchaSiteKey,     // The site key associated with the current project
       },
     },
-    parent: projectPath,               // Project path used for creating the assessment
   };
 
   try {

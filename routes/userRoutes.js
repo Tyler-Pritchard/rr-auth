@@ -48,7 +48,7 @@ router.post('/register', authLimiter, async (req, res) => {
 
   try {
     // Verify the CAPTCHA token to prevent automated requests
-    const recaptchaScore = await verifyRecaptchaToken(captchaToken);
+    const recaptchaScore = await verifyRecaptchaToken(captchaToken, 'register');
     logger.info('CAPTCHA verification result during registration', { email, recaptchaScore });
 
     // If CAPTCHA verification fails, reject the request

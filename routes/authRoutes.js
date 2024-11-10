@@ -33,7 +33,7 @@ router.post('/login', authLimiter, async (req, res) => {
 
   try {
     // Verify reCAPTCHA token to ensure the request is from a human
-    const recaptchaScore = await verifyRecaptchaToken(req.body.captchaToken);
+    const recaptchaScore = await verifyRecaptchaToken(req.body.captchaToken, 'login');
     logger.info('CAPTCHA verification during login', { email, recaptchaScore });
 
     // If CAPTCHA verification fails, reject the request
