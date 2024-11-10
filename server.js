@@ -139,13 +139,13 @@ app.use(
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src *; " +
-    "script-src * 'unsafe-inline' 'unsafe-eval'; " +
-    "style-src * 'unsafe-inline'; " +
-    "font-src *; " +
-    "connect-src *; " +
-    "frame-src * https://cdn.knightlab.com; " +
-    "img-src * data:;"
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://vercel.live; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
+    "frame-src 'self' https://www.google.com https://www.gstatic.com; " +
+    "connect-src 'self' https://rr-auth-production.up.railway.app https://www.robrich.band http://localhost:5000 http://localhost:3000 https://vercel.live; " +
+    "img-src 'self' data:;"
   );
   next();
 });
