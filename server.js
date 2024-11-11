@@ -145,7 +145,7 @@ app.use((req, res, next) => {
     "script-src-attr 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://vercel.live https://vercel.live/_next-live/feedback/; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
-    "frame-src 'self' https://www.google.com https://www.gstatic.com; " +
+    "frame-src 'self' https://www.google.com https://www.gstatic.com https://cdn.knightlab.com; " +
     "connect-src 'self' https://rr-auth-production.up.railway.app https://www.robrich.band http://localhost:5000 http://localhost:3000 https://vercel.live; " +
     "img-src 'self' data:;"
   );
