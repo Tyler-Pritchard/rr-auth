@@ -73,7 +73,7 @@ if (process.env.USE_GCLOUD_SERVICE_ACCOUNT === 'true') {
 const allowedOrigins = process.env.NODE_ENV === 'production' ? [
   'https://rrsite-git-main-tylers-projects-06089682.vercel.app',
   'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app',
-  'https://www.robrich.band', 'https://rrsite-9p3np20zt-tylers-projects-06089682.vercel.app'
+  'https://www.robrich.band', 'https://rrsite-9p3np20zt-tylers-projects-06089682.vercel.app', 'https://rrsite-esfflg8aj-tylers-projects-06089682.vercel.app'
 ] : ['http://localhost:3000'];
 
 /**

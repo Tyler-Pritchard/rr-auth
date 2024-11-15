@@ -53,7 +53,7 @@ async function createTransporter() {
     // For production, configure Gmail with OAuth2 authentication
     try {
       const accessToken = await oauth2Client.getAccessToken(); // Retrieve the access token using OAuth2
-      // console.log("Access Token:", accessToken);
+      console.log("Access Token:", accessToken);
 
       if (!accessToken) {
         throw new Error('Invalid access token. Check OAuth2 credentials.');
