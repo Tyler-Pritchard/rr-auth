@@ -82,10 +82,14 @@ const allowedOrigins = process.env.NODE_ENV === 'production' ? [
  * CORS settings are applied to handle cross-origin requests, allowing only specified
  * domains to interact with the server.
  */
+// Define allowed HTTP methods and headers explicitly
+const allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'];
+const allowedHeaders = ['Content-Type', 'Authorization'];
+
 app.use(cors({
   origin: function (origin, callback) {
     logger.info(`Incoming Origin: ${origin || 'undefined'}`);
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       logger.error(`CORS Error: Origin not allowed - ${origin}`);
@@ -93,7 +97,17 @@ app.use(cors({
     }
   },
   credentials: true, // Allow credentials such as cookies
+  methods: allowedMethods,
+  allowedHeaders: allowedHeaders,
 }));
+
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(204); // Respond with no content for OPTIONS
+});
 
 /**
  * Middleware: Preflight Request Handler
