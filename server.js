@@ -73,8 +73,9 @@ if (process.env.USE_GCLOUD_SERVICE_ACCOUNT === 'true') {
 const allowedOrigins = process.env.NODE_ENV === 'production' ? [
   'https://rrsite-git-main-tylers-projects-06089682.vercel.app',
   'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app',
-  'https://www.robrich.band', 'https://rrsite-9p3np20zt-tylers-projects-06089682.vercel.app', 'https://rrsite-esfflg8aj-tylers-projects-06089682.vercel.app'
-] : ['http://localhost:3000'];
+  'https://www.robrich.band', 
+  'http://localhost:8080'
+] : ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:5000'];
 
 /**
  * Middleware: Setup CORS with Dynamic Origin Handling
@@ -96,9 +97,9 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true, // Allow credentials such as cookies
-  methods: allowedMethods,
-  allowedHeaders: allowedHeaders,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.options('*', (req, res) => {
@@ -160,7 +161,7 @@ app.use((req, res, next) => {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
     "frame-src 'self' https://www.google.com https://www.gstatic.com https://cdn.knightlab.com; " +
-    "connect-src 'self' https://rr-auth-production.up.railway.app https://www.robrich.band http://localhost:5000 http://localhost:3000 https://vercel.live; " +
+    "connect-src 'self' https://rr-auth-production.up.railway.app https://www.robrich.band http://localhost:8080 http://localhost:5000 http://localhost:3000 https://vercel.live; " +
     "img-src 'self' data:;"
   );
   next();
@@ -205,6 +206,12 @@ if (process.env.NODE_ENV !== 'test') {
     .catch(err => logger.error('MongoDB connection error', { error: err.message }));
 }
 
+app.use((req, res, next) => {
+  const isFromGateway = req.headers['x-forwarded-for'] ? 'via API Gateway' : 'direct';
+  logger.info(`Request ${isFromGateway}: ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 // Use custom-defined routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
@@ -212,9 +219,9 @@ app.use('/api/password', passwordRoutes);
 app.use('/api/mock-recaptcha', mockCaptchaRoutes);
 
 // Healthcheck route for monitoring
-app.get('/', (req, res) => {
-  logger.info('Healthcheck endpoint accessed');
-  res.send('API is running...');
+app.get('/api/auth/health', (req, res) => {
+  logger.info('Auth service healthcheck accessed');
+  res.send('Auth service is running...');
 });
 
 // Start the server and listen on the specified port
