@@ -75,8 +75,16 @@ const allowedOrigins = process.env.NODE_ENV === 'production' ? [
   'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app',
   'https://www.robrich.band', 
   'https://rrsite.vercel.app',
+  'https://rr-auth-production.up.railway.app',
+  'https://rr-store-production.up.railway.app',
+  'https://cdn.knightlab.com',
+  'https://vercel.live',
   'http://localhost:8080'
-] : ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:5000'];
+] : [
+  'http://localhost:3000',
+  'http://localhost:8080',
+  'http://localhost:5000'
+];
 
 /**
  * Middleware: Setup CORS with Dynamic Origin Handling
