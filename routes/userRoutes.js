@@ -14,7 +14,7 @@ const logger = require('../utils/logger');
 const router = express.Router(); // Create a new Express Router instance
 
 /**
- * @route   GET /api/users/count
+ * @route   GET /users/count
  * @desc    Retrieves the total number of registered users in the database.
  * @access  Public
  */
@@ -31,7 +31,7 @@ router.get('/count', async (req, res) => {
 });
 
 /**
- * @route   POST /api/users/register
+ * @route   POST /users/register
  * @desc    Register a new user with the provided details.
  * @access  Public
  */

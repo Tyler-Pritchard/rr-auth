@@ -220,13 +220,13 @@ app.use((req, res, next) => {
 });
 
 // Use custom-defined routes
-app.use('/api/users', userRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/password', passwordRoutes);
-app.use('/api/mock-recaptcha', mockCaptchaRoutes);
+app.use('/users', userRoutes);
+app.use('/auth', authRoutes);
+app.use('/password', passwordRoutes);
+app.use('/mock-recaptcha', mockCaptchaRoutes);
 
 // Healthcheck route for monitoring
-app.get('/api/auth/health', (req, res) => {
+app.get('/auth/health', (req, res) => {
   logger.info('Auth service healthcheck accessed');
   res.send('Auth service is running...');
 });

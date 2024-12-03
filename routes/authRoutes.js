@@ -16,7 +16,7 @@ const logger = require('../utils/logger');
 const router = express.Router(); // Create a new Express Router instance
 
 /**
- * @route   POST /api/auth/login
+ * @route   POST /auth/login
  * @desc    Authenticate user and generate JWT token upon successful login.
  * @access  Public
  */
@@ -88,7 +88,7 @@ router.post('/login', authLimiter, async (req, res) => {
 });
 
 /**
- * @route   POST /api/auth/logout
+ * @route   POST /auth/logout
  * @desc    Handle user logout by optionally invalidating the user's token.
  * @access  Public
  */
