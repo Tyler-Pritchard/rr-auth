@@ -169,12 +169,11 @@ app.use((req, res, next) => {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
     "frame-src 'self' https://www.google.com https://www.gstatic.com https://cdn.knightlab.com https://vercel.live; " +
-    "connect-src 'self' https://rr-auth-production.up.railway.app https://rr-store-production.up.railway.app https://www.robrich.band http://localhost:8080 http://localhost:3000 https://vercel.live; " + // Add the store service
+    "connect-src 'self' https://rr-store-production.up.railway.app https://rr-auth-production.up.railway.app https://www.robrich.band http://localhost:8080 http://localhost:3000 https://vercel.live; " + // Add the store service
     "img-src 'self' data:;"
   );
   next();
 });
-
 
 /**
  * Rate Limiting Configuration
