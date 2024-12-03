@@ -76,7 +76,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production' ? [
   'https://www.robrich.band', 
   'https://rrsite.vercel.app',
   'https://rr-auth-production.up.railway.app',
-  'https://rr-store-production.up.railway.app',
+  'https://rr-store-production.up.railway.app', // Add the store service
   'https://cdn.knightlab.com',
   'https://vercel.live',
   'http://localhost:8080',
@@ -166,12 +166,10 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     "default-src 'self'; " +
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://vercel.live https://vercel.live/_next-live/feedback/; " +
-    "script-src-elem 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://vercel.live https://vercel.live/_next-live/feedback/; " +
-    "script-src-attr 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://vercel.live https://vercel.live/_next-live/feedback/; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
-    "frame-src 'self' https://www.google.com https://www.gstatic.com https://cdn.knightlab.com https://vercel.live/;" +
-    "connect-src 'self' https://rr-auth-production.up.railway.app https://www.robrich.band http://localhost:8080 http://localhost:5000 http://localhost:3000 https://vercel.live https://rr-store-production.up.railway.app; " +
+    "frame-src 'self' https://www.google.com https://www.gstatic.com https://cdn.knightlab.com https://vercel.live; " +
+    "connect-src 'self' https://rr-auth-production.up.railway.app https://rr-store-production.up.railway.app https://www.robrich.band http://localhost:8080 http://localhost:3000 https://vercel.live; " + // Add the store service
     "img-src 'self' data:;"
   );
   next();
