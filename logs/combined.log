@@ -1435,3 +1435,60 @@
 {"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:36:19.255Z"}
 {"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:36:19.279Z","userCount":8}
 {"level":"info","message":"::1 - - [03/Dec/2024:09:36:19 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36\"","timestamp":"2024-12-03T09:36:19.280Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2024-12-03T09:47:08.269Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2024-12-03T09:47:08.716Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:47:18.396Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:47:18.402Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:47:18.433Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:47:18 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36\"","timestamp":"2024-12-03T09:47:18.437Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:47:18.438Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:47:18.439Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:47:18.462Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:47:18 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36\"","timestamp":"2024-12-03T09:47:18.463Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:47:54.109Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:47:54.117Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:47:54.142Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:47:54 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:47:54.142Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:47:54.147Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:47:54.148Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:47:54.173Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:47:54 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:47:54.174Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:51:52.181Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:51:52.182Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:51:52.206Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:51:52 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:51:52.206Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:51:52.219Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:51:52.220Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:51:52.244Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:51:52 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:51:52.244Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:52:06.399Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:52:06.400Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:52:06.428Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:52:06 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:52:06.429Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:52:06.439Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:52:06.440Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:52:06.465Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:52:06 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:52:06.466Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:52:08.691Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:52:08.692Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:52:08.719Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:52:08 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:52:08.721Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:52:08.722Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:52:08.723Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:52:08.749Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:52:08 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:52:08.750Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:52:12.593Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:52:12.593Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:52:12.636Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:52:12 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:52:12.669Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:52:12.686Z"}
+{"level":"info","message":"Request direct: GET /users/count","timestamp":"2024-12-03T09:52:12.688Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-03T09:52:12.718Z","userCount":8}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:52:12 +0000] \"GET /users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:52:12.726Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:52:39.450Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2024-12-03T09:52:39.454Z"}
+{"level":"info","message":"Request direct: POST /users/register","timestamp":"2024-12-03T09:52:39.467Z"}
+{"level":"info","message":"reCAPTCHA response received","riskScore":0.8999999761581421,"timestamp":"2024-12-03T09:52:39.721Z","tokenProperties":{"action":"register","androidPackageName":"","createTime":{"nanos":357000000,"seconds":"1733219532"},"hostname":"localhost","invalidReason":"INVALID_REASON_UNSPECIFIED","iosBundleId":"","valid":true}}
+{"email":"lkjasdfoiu@oiuerkl.com","level":"info","message":"CAPTCHA verification result during registration","recaptchaScore":0.8999999761581421,"timestamp":"2024-12-03T09:52:39.721Z"}
+{"email":"lkjasdfoiu@oiuerkl.com","level":"info","message":"New user registered successfully","timestamp":"2024-12-03T09:52:39.974Z"}
+{"level":"info","message":"::1 - - [03/Dec/2024:09:52:39 +0000] \"POST /users/register HTTP/1.1\" 201 38 \"http://localhost:3000/\" \"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36\"","timestamp":"2024-12-03T09:52:39.975Z"}

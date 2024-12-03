@@ -18,7 +18,7 @@ const router = express.Router(); // Create a new Express Router instance
 
 
 /**
- * @route   POST /password/forgot-password
+ * @route   POST /api/password/forgot-password
  * @desc    Send an email with a password reset link to the provided email address.
  * @access  Public
  */
@@ -93,7 +93,7 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
   
 
 /**
- * @route   POST /password/reset-password
+ * @route   POST /api/password/reset-password
  * @desc    Reset the user's password using a valid reset token.
  * @access  Public
  */
