@@ -1,5 +1,6 @@
 node_modules
 .env
+secrets.env
 rr-auth-1725047695006-5dc7c99426ff.json
 gcloud-credentials.json
 

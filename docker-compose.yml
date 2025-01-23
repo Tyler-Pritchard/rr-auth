@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  rr-auth:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    env_file:
+      - secrets.env
+    volumes:
+      - ./gcloud-credentials.json:/run/secrets/gcloud-credentials.json
+
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: development_db
