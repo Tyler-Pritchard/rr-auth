@@ -1919,3 +1919,5 @@
 {"level":"info","message":"Request direct: GET /api/users/count","timestamp":"2024-12-12T07:59:15.829Z"}
 {"level":"info","message":"Total users count retrieved successfully","timestamp":"2024-12-12T07:59:15.858Z","userCount":11}
 {"level":"info","message":"::1 - - [12/Dec/2024:07:59:15 +0000] \"GET /api/users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36\"","timestamp":"2024-12-12T07:59:15.859Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-01-30T07:30:31.038Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2025-01-30T07:30:31.480Z"}

@@ -226,15 +226,15 @@ app.use('/api/auth', authRoutes);
 app.use('/api/password', passwordRoutes);
 app.use('/api/mock-recaptcha', mockCaptchaRoutes);
 
-// Healthcheck route for monitoring
-app.get('/api/auth/health', (req, res) => {
-  logger.info('Auth service healthcheck accessed');
-  res.send('Auth service is running...');
-});
-
 // Start the server and listen on the specified port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
+
+// Global healthcheck route to align with other services
+app.get('/health', (req, res) => {
+  logger.info('Global healthcheck accessed');
+  res.json({ status: "UP" });
+});
 
 // Export the app for testing
 module.exports = app;

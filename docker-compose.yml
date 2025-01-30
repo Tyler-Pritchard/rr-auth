@@ -3,6 +3,7 @@ version: '3.8'
 services:
   rr-auth:
     build: .
+    container_name: rr-auth
     ports:
       - "5000:5000"
     depends_on:
@@ -11,6 +12,8 @@ services:
       - secrets.env
     volumes:
       - ./gcloud-credentials.json:/run/secrets/gcloud-credentials.json
+    networks:
+      - shared_network
 
   mongo:
     image: mongo
@@ -19,3 +22,9 @@ services:
       - "27017:27017"
     environment:
       MONGO_INITDB_DATABASE: development_db
+    networks:
+      - shared_network
+
+networks:
+  shared_network:
+    external: true
