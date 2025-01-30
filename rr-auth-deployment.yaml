@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rr-auth
+  labels:
+    app: rr-auth
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rr-auth
+  template:
+    metadata:
+      labels:
+        app: rr-auth
+    spec:
+      containers:
+      - name: rr-auth
+        image: your-registry/rr-auth:latest
+        ports:
+          - containerPort: 5000
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          envFrom:
+            - configMapRef:
+                name: rr-auth-config
+            - secretRef:
+                name: rr-auth-secret
+          volumeMounts:
+            - name: gcloud-credentials
+              mountPath: /etc/gcloud/
+              readOnly: true
+      volumes:
+        - name: gcloud-credentials
+          secret:
+            secretName: rr-auth-secret
+annotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "/metrics"
+  prometheus.io/port: "8080"

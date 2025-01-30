@@ -5,3 +5,5 @@ rr-auth-1725047695006-5dc7c99426ff.json
 gcloud-credentials.json
 
 logs/*
+
+rr-auth-secret.yaml
