@@ -12,6 +12,10 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
     - [Steps](#steps)
   - [Configuration](#configuration)
     - [Environment Variables](#environment-variables)
+  - [Running with Docker](#running-with-docker)
+    - [Docker Setup](#docker-setup)
+    - [Building and Running the Container](#building-and-running-the-container)
+    - [Stopping and Removing Containers](#stopping-and-removing-containers)
   - [API Endpoints](#api-endpoints)
     - [User Registration](#user-registration)
     - [User Login](#user-login)
@@ -24,7 +28,6 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
   - [Contributing](#contributing)
   - [License](#license)
   - [Contact](#contact)
-
 
 ## Features
 - User Registration: Securely register new users with email and password.
@@ -46,9 +49,8 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
 - **Google reCAPTCHA**: Service to protect your website from spam and abuse.
 - **Nodemailer**: Email handling for sending password reset links.
 - **Helmet**: Security middleware for HTTP headers.
-- **Express Rate Limit**: Protection from brute-force attacks
+- **Express Rate Limit**: Protection from brute-force attacks.
 - **Winston**: Logging for application events.
-
 
 ## Installation
 
@@ -58,44 +60,75 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
 - [Google reCAPTCHA](https://www.google.com/recaptcha/) account.
 - Set up an SMTP email service (e.g., Gmail) for sending password reset emails.
 
-
 ### Steps
 1. Clone the repository:
 ```
- git clone https://github.com/tyler-pritchard/rr-auth.git
- cd rr-auth
+git clone https://github.com/tyler-pritchard/rr-auth.git
+cd rr-auth
 ```
-1. Install dependencies:
-  ```
-    npm install
-  ```
-1. Create a ```.env``` file in the root directory and add your environment variables (see [Configuration](#configuration)).
-2. Start the server:
-  ```
-    npx nodemon server.js
-  ```
-  The server will start on ```http://localhost:5000```.
+2. Install dependencies:
+```
+npm install
+```
+3. Create a `.env` file in the root directory and add your environment variables (see [Configuration](#configuration)).
+4. Start the server:
+```
+npx nodemon server.js
+```
+The server will start on `http://localhost:5000`.
 
 ## Configuration
 
 ### Environment Variables
-In your ```.env``` file, include the following variables:
-  ```
-  MONGO_URI=mongodb+srv://your_mongo_uri
-  RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
-  RECAPTCHA_SITE_KEY=your_recaptcha_site_key
-  JWT_SECRET=your_jwt_secret_key
-  PORT=5000
-  EMAIL_USER=your_email_address
-  EMAIL_PASSWORD=your_email_password
-  ```
+In your `.env` file, include the following variables:
+```
+MONGO_URI=mongodb+srv://your_mongo_uri
+RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
+RECAPTCHA_SITE_KEY=your_recaptcha_site_key
+JWT_SECRET=your_jwt_secret_key
+PORT=5000
+EMAIL_USER=your_email_address
+EMAIL_PASSWORD=your_email_password
+```
+
+## Running with Docker
+
+### Docker Setup
+Ensure you have [Docker](https://www.docker.com/) installed on your system.
+
+### Building and Running the Container
+To build and run the service using Docker:
+```
+docker-compose up --build -d
+```
+This will:
+- Build the Docker image for `rr-auth`.
+- Start the container in detached mode (`-d`).
+
+To verify the service is running:
+```
+docker ps
+```
+To check the health status of `rr-auth`:
+```
+curl http://localhost:5000/api/auth/health
+```
+
+### Stopping and Removing Containers
+To stop and remove the container:
+```
+docker-compose down
+```
+To restart the container:
+```
+docker-compose up -d
+```
 
 ## API Endpoints
 
 ### User Registration
-
-- Endpoint: ```/api/users/register```
-- Method: ```POST```
+- Endpoint: `/api/users/register`
+- Method: `POST`
 - Body Parameters:
 ```
 {
@@ -111,8 +144,8 @@ In your ```.env``` file, include the following variables:
 ```
 
 ### User Login
-- Endpoint: ```/api/auth/login```
-- Method: ```POST```
+- Endpoint: `/api/auth/login`
+- Method: `POST`
 - Body Parameters:
 ```
 {
@@ -124,8 +157,8 @@ In your ```.env``` file, include the following variables:
 ```
 
 ### Forgot Password
-- Endpoint: ```/api/password/forgot-password```
-- Method: ```POST```
+- Endpoint: `/api/password/forgot-password`
+- Method: `POST`
 - Body Parameters:
 ```
 {
@@ -135,8 +168,8 @@ In your ```.env``` file, include the following variables:
 ```
 
 ### Reset Password
-- Endpoint: ```/api/password/reset-password```
-- Method: ```POST```
+- Endpoint: `/api/password/reset-password`
+- Method: `POST`
 - Body Parameters:
 ```
 {
@@ -146,8 +179,8 @@ In your ```.env``` file, include the following variables:
 ```
 
 ### User Count
-- Endpoint: ```/api/users/count```
-- Method: ```GET```
+- Endpoint: `/api/users/count`
+- Method: `GET`
 - Description: Returns the total number of registered users.
 
 ## Security
@@ -157,11 +190,10 @@ In your ```.env``` file, include the following variables:
 - Rate Limiting: Requests to sensitive endpoints are rate-limited to prevent abuse.
 
 ## Testing
-This project uses ```Jest``` for testing. To run the tests:
+This project uses `Jest` for testing. To run the tests:
 ```
 npm test
 ```
-The Jest is a lie.
 
 ### Test Features
 - In-memory MongoDB for isolated testing.
@@ -169,7 +201,6 @@ The Jest is a lie.
 
 ## Contributing
 Contributions are welcome! Please follow the standard Git workflow:
-
 1. Fork the repository.
 2. Create a new branch for your feature.
 3. Submit a pull request for review.
