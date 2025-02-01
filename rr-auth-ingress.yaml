@@ -4,7 +4,7 @@ metadata:
   name: rr-auth-ingress
 spec:
   rules:
-    - host: auth.yourdomain.com
+    - host: auth.local
       http:
         paths:
           - path: /
