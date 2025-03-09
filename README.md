@@ -12,10 +12,6 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
     - [Steps](#steps)
   - [Configuration](#configuration)
     - [Environment Variables](#environment-variables)
-  - [Running with Docker](#running-with-docker)
-    - [Docker Setup](#docker-setup)
-    - [Building and Running the Container](#building-and-running-the-container)
-    - [Stopping and Removing Containers](#stopping-and-removing-containers)
   - [API Endpoints](#api-endpoints)
     - [User Registration](#user-registration)
     - [User Login](#user-login)
@@ -25,6 +21,17 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
   - [Security](#security)
   - [Testing](#testing)
     - [Test Features](#test-features)
+  - [Running with Docker](#running-with-docker)
+    - [Docker Setup](#docker-setup)
+    - [Building and Running the Container](#building-and-running-the-container)
+    - [Stopping and Removing Containers](#stopping-and-removing-containers)
+  - [🧩 Kubernetes Deployment](#-kubernetes-deployment)
+    - [Kubernetes Prerequisites](#kubernetes-prerequisites)
+    - [Kubernetes Setup Steps](#kubernetes-setup-steps)
+    - [Health Check Endpoints](#health-check-endpoints)
+  - [📊 Observability with Prometheus \& Grafana](#-observability-with-prometheus--grafana)
+    - [Prometheus Integration](#prometheus-integration)
+    - [Grafana Dashboards](#grafana-dashboards)
   - [Contributing](#contributing)
   - [License](#license)
   - [Contact](#contact)
@@ -89,39 +96,6 @@ JWT_SECRET=your_jwt_secret_key
 PORT=5000
 EMAIL_USER=your_email_address
 EMAIL_PASSWORD=your_email_password
-```
-
-## Running with Docker
-
-### Docker Setup
-Ensure you have [Docker](https://www.docker.com/) installed on your system.
-
-### Building and Running the Container
-To build and run the service using Docker:
-```
-docker-compose up --build -d
-```
-This will:
-- Build the Docker image for `rr-auth`.
-- Start the container in detached mode (`-d`).
-
-To verify the service is running:
-```
-docker ps
-```
-To check the health status of `rr-auth`:
-```
-curl http://localhost:5000/api/auth/health
-```
-
-### Stopping and Removing Containers
-To stop and remove the container:
-```
-docker-compose down
-```
-To restart the container:
-```
-docker-compose up -d
 ```
 
 ## API Endpoints
@@ -199,6 +173,119 @@ npm test
 - In-memory MongoDB for isolated testing.
 - Unit tests for registration, login, and user count routes.
 
+## Running with Docker
+
+### Docker Setup
+Ensure you have [Docker](https://www.docker.com/) installed on your system.
+
+### Building and Running the Container
+To build and run the service using Docker:
+```
+docker-compose up --build -d
+```
+This will:
+- Build the Docker image for `rr-auth`.
+- Start the container in detached mode (`-d`).
+
+To verify the service is running:
+```
+docker ps
+```
+To check the health status of `rr-auth`:
+```
+curl http://localhost:5000/api/auth/health
+```
+
+### Stopping and Removing Containers
+To stop and remove the container:
+```
+docker-compose down
+```
+To restart the container:
+```
+docker-compose up -d
+```
+
+## 🧩 Kubernetes Deployment
+
+RR-Auth is fully containerized and deployed via Kubernetes, integrated into a production-grade microservices architecture. The deployment includes secure environment variable management, observability with Prometheus metrics, and resilient pod orchestration.
+
+### Kubernetes Prerequisites
+- `minikube` or Kubernetes cluster
+- `kubectl` CLI
+- `helm` CLI (for observability stack)
+
+### Kubernetes Setup Steps
+1. Start Minikube:
+```bash
+minikube start
+minikube addons enable ingress
+minikube addons enable metrics-server
+```
+2. Build and load Docker image locally (if not pulling from Docker Hub):
+```bash
+eval $(minikube docker-env)
+docker build -t tylerpritchard/rr-auth:latest ./rr-auth
+```
+3. Apply Kubernetes manifests:
+```bash
+kubectl apply -f rr-auth/rr-auth-deployment.yaml
+kubectl apply -f rr-auth/rr-auth-service.yaml
+kubectl apply -f rr-auth/rr-auth-config.yaml
+kubectl apply -f rr-auth/rr-auth-secret.yaml
+kubectl apply -f rr-auth/rr-auth-ingress.yaml
+```
+
+4. Verify Deployment:
+```bash
+kubectl get pods -l app=rr-auth
+kubectl get svc -l app=rr-auth
+```
+
+### Health Check Endpoints
+RR-Auth exposes Kubernetes-ready endpoints:
+- `/health` for general health
+- `/api/auth/health` for service-specific status
+
+---
+
+## 📊 Observability with Prometheus & Grafana
+
+RR-Auth is instrumented for observability via Prometheus metrics scraping and Grafana dashboards.
+
+### Prometheus Integration
+Kubernetes `Deployment` annotations:
+```yaml
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "5000"
+    prometheus.io/path: "/api/auth/health"
+```
+
+### Grafana Dashboards
+1. Install Prometheus & Grafana using Helm:
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/prometheus --namespace monitoring --create-namespace
+helm install grafana prometheus-community/grafana --namespace monitoring
+```
+2. Port Forward Access:
+```bash
+kubectl port-forward -n monitoring svc/prometheus-server 9090:80
+kubectl port-forward -n monitoring svc/grafana 3000:80
+```
+
+Default Grafana credentials:
+```
+Username: admin
+Password: (retrieve with)
+kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
+3. Add Prometheus as a data source in Grafana and configure dashboards using standard Node.js metrics templates.
+
+
 ## Contributing
 Contributions are welcome! Please follow the standard Git workflow:
 1. Fork the repository.
@@ -211,6 +298,5 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 ## Contact
 For any questions or support, please reach out:
 
-Tyler Pritchard
 [GitHub](https://www.github.com/tyler-pritchard)
 [LinkedIn](https://www.linkedin.com/in/tyler-pritchard)
