@@ -100,6 +100,7 @@ const allowedHeaders = ['Content-Type', 'Authorization'];
 
 app.use(cors({
   origin: function (origin, callback) {
+    console.log('NODE_ENV is:', process.env.NODE_ENV);
     logger.info(`Incoming Origin: ${origin || 'undefined'}`);
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
