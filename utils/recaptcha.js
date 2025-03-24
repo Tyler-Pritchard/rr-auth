@@ -16,10 +16,13 @@
  */
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const tempDir = os.tmpdir();  // This is a writable temp directory
 
 // Decode GOOGLE_APPLICATION_CREDENTIALS_BASE64 into a real file if not already written
-const credentialsPath = path.join(__dirname, 'gcloud-credentials.json');
+const credentialsPath = path.join(os.tmpdir(), 'gcloud-credentials.json');
+
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64 && !fs.existsSync(credentialsPath)) {
   const decoded = Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64, 'base64').toString('utf8');
   fs.writeFileSync(credentialsPath, decoded);
