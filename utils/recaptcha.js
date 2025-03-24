@@ -28,9 +28,7 @@ const logger = require('./logger');  // Logger utility for structured logging
 
 // Create a new instance of the RecaptchaEnterpriseServiceClient
 const path = require('path'); // Add this if not already at top of file
-const recaptchaClient = new RecaptchaEnterpriseServiceClient({
-  keyFilename: path.join(__dirname, 'gcloud-credentials.json'),
-});
+const recaptchaClient = new RecaptchaEnterpriseServiceClient();
 
 /**
  * Verify reCAPTCHA Token
