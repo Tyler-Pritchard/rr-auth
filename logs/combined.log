@@ -2260,3 +2260,13 @@
 {"email":"owurlkjsadf@woru.com","level":"info","message":"CAPTCHA verification result during registration","recaptchaScore":1,"timestamp":"2025-03-24T05:19:27.147Z"}
 {"email":"owurlkjsadf@woru.com","level":"info","message":"New user registered successfully","timestamp":"2025-03-24T05:19:27.317Z"}
 {"level":"info","message":"::1 - - [24/Mar/2025:05:19:27 +0000] \"POST /api/users/register HTTP/1.1\" 201 38 \"http://localhost:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36\"","timestamp":"2025-03-24T05:19:27.318Z"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2025-03-24T06:15:27.258Z"}
+{"level":"info","message":"MongoDB connected","timestamp":"2025-03-24T06:15:27.649Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2025-03-24T06:15:42.389Z"}
+{"level":"info","message":"Request direct: GET /api/users/count","timestamp":"2025-03-24T06:15:42.396Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2025-03-24T06:15:42.462Z","userCount":12}
+{"level":"info","message":"::1 - - [24/Mar/2025:06:15:42 +0000] \"GET /api/users/count HTTP/1.1\" 200 17 \"http://localhost:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36\"","timestamp":"2025-03-24T06:15:42.466Z"}
+{"level":"info","message":"Incoming Origin: http://localhost:3000","timestamp":"2025-03-24T06:15:42.470Z"}
+{"level":"info","message":"Request direct: GET /api/users/count","timestamp":"2025-03-24T06:15:42.472Z"}
+{"level":"info","message":"Total users count retrieved successfully","timestamp":"2025-03-24T06:15:42.494Z","userCount":12}
+{"level":"info","message":"::1 - - [24/Mar/2025:06:15:42 +0000] \"GET /api/users/count HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36\"","timestamp":"2025-03-24T06:15:42.496Z"}

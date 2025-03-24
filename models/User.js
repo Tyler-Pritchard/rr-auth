@@ -76,11 +76,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Indexes for optimizing frequently queried fields
-userSchema.index({ email: 1 });        // Index on email to speed up queries
-userSchema.index({ username: 1 });     // Index on username for faster lookups
-userSchema.index({ isSubscribed: 1 }); // Index for filtering by subscription status
-
 /**
  * Pre-save Middleware
  * Hash the password before saving the user document if the password field is modified.
