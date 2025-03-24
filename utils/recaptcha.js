@@ -27,7 +27,10 @@ const recaptchaSiteKey = '6LfU8jIqAAAAAOAFm-eNXmW-uPrxqdH9xJLEfJ7R';  // Site ke
 const logger = require('./logger');  // Logger utility for structured logging
 
 // Create a new instance of the RecaptchaEnterpriseServiceClient
-const recaptchaClient = new RecaptchaEnterpriseServiceClient();
+const path = require('path'); // Add this if not already at top of file
+const recaptchaClient = new RecaptchaEnterpriseServiceClient({
+  keyFilename: path.join(__dirname, 'gcloud-credentials.json'),
+});
 
 /**
  * Verify reCAPTCHA Token
