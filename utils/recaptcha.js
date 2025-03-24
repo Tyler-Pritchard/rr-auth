@@ -26,6 +26,15 @@ const recaptchaSiteKey = '6LfU8jIqAAAAAOAFm-eNXmW-uPrxqdH9xJLEfJ7R';  // Site ke
 // Import the custom logger for tracking events and errors
 const logger = require('./logger');  // Logger utility for structured logging
 
+const fs = require('fs');
+const path = require('path');
+
+if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64 && !fs.existsSync(path.join(__dirname, 'gcloud-credentials.json'))) {
+  const decoded = Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64, 'base64').toString('utf8');
+  fs.writeFileSync(path.join(__dirname, 'gcloud-credentials.json'), decoded);
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = path.join(__dirname, 'gcloud-credentials.json');
+}
+
 // Create a new instance of the RecaptchaEnterpriseServiceClient
 const path = require('path'); // Add this if not already at top of file
 const recaptchaClient = new RecaptchaEnterpriseServiceClient();
