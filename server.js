@@ -73,6 +73,7 @@ if (process.env.USE_GCLOUD_SERVICE_ACCOUNT === 'true') {
 const allowedOrigins = process.env.NODE_ENV === 'production' ? [
   'https://rrsite-git-main-tylers-projects-06089682.vercel.app',
   'https://rrsite-gephaoaft-tylers-projects-06089682.vercel.app',
+  'https://robrich.band',
   'https://www.robrich.band', 
   'https://rrsite.vercel.app',
   'https://rr-auth-production.up.railway.app',
