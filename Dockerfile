@@ -19,6 +19,9 @@ COPY . .
 # Set permissions on node_modules for the non-root user
 RUN chown -R appuser:appgroup /app/node_modules
 
+# Create a writable logs directory for Winston (app runs as non-root)
+RUN mkdir -p /app/logs && chown -R appuser:appgroup /app/logs
+
 # Switch to the non-root user
 USER appuser
 
