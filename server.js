@@ -27,14 +27,14 @@ const cors = require('cors'); // Middleware for handling Cross-Origin Resource S
 const morgan = require('morgan'); // HTTP request logger
 const logger = require('./utils/logger'); // Custom logger using Winston
 
+// Load environment variables from the `.env` file
+dotenv.config();
+
 // Import custom route files
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const passwordRoutes = require('./routes/passwordRoutes');
 const mockCaptchaRoutes = require('./routes/mockCaptcha');
-
-// Load environment variables from the `.env` file
-dotenv.config();
 
 // Initialize the Express app
 const app = express();
@@ -228,16 +228,14 @@ app.use('/api/auth', authRoutes);
 app.use('/api/password', passwordRoutes);
 app.use('/api/mock-recaptcha', mockCaptchaRoutes);
 
-// Start the server and listen on the specified port
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
+// Health check (register routes before listening)
+app.get('/health', (req, res) => res.json({ status: 'UP' }));
 
-// Global healthcheck route to align with other services
-app.get('/health', (req, res) => {
-  logger.info('Global healthcheck accessed');
-  res.json({ status: "UP" });
-});
+// Only bind a port when run directly (node server.js), not when imported by tests
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
+}
 
 // Export the app for testing
 module.exports = app;
-

@@ -1,0 +1,35 @@
+# Keep the build context minimal: only what the running service needs.
+
+# Version control & dependencies (reinstalled by npm ci)
+.git
+.gitignore
+node_modules
+
+# Secrets: never bake these into an image; inject at runtime instead
+.env
+.env.*
+secrets.env
+gcloud-credentials.json
+rr-auth-1725047695006-*.json
+rr-auth-secret.yaml
+*.pem
+*.key
+
+# Logs & test artifacts
+logs
+*.log
+coverage
+__tests__
+
+# Deployment/infra files the container doesn't use
+Dockerfile
+.dockerignore
+docker-compose.yml
+rr-auth-*.yaml
+
+# Docs & scratch files
+README.md
+app_logo.jpg
+rr-auth_file_tree.txt
+Untitled*.txt
+.DS_Store

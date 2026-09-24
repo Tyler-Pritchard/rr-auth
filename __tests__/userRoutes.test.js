@@ -47,7 +47,10 @@ describe('GET /api/users/count', () => {
 });
 
 // Spy on the verifyRecaptchaToken function and mock its implementation
-jest.spyOn(require('../routes/userRoutes'), 'verifyRecaptchaToken').mockResolvedValue(0.9); // Mock valid CAPTCHA response
+// jest.spyOn(require('../routes/userRoutes'), 'verifyRecaptchaToken').mockResolvedValue(0.9); // Mock valid CAPTCHA response
+jest.mock('../utils/recaptcha', () => ({
+  verifyRecaptchaToken: jest.fn().mockResolvedValue(0.9),
+}));
 
 describe('User Registration Route', () => {
   let mongoServer;

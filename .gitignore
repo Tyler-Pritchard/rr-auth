@@ -1,9 +1,29 @@
-node_modules
+# ── Dependencies ─────────────────────────────
+node_modules/
+
+# ── Environment & secrets ────────────────────
 .env
+.env.*
+!.env.example
 secrets.env
-rr-auth-1725047695006-5dc7c99426ff.json
 gcloud-credentials.json
-
-logs/*
-
+rr-auth-1725047695006-*.json
 rr-auth-secret.yaml
+*.pem
+*.key
+
+# ── Logs ─────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+
+# ── Test / build output ──────────────────────
+coverage/
+
+# ── OS / editor ──────────────────────────────
+.DS_Store
+
+# ── Local scratch ────────────────────────────
+rr-auth_file_tree.txt
+
+package-lock.json

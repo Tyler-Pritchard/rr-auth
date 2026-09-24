@@ -8,7 +8,7 @@
  * - Provide users with a message indicating when rate limits are exceeded.
  * 
  * Configuration:
- * - Limits each IP to 100 requests per 15-minute window.
+ * - Limits each IP to 20 requests per 15-minute window.
  * - Returns a specific error message when the rate limit is exceeded.
  * - Includes rate limit information in the response headers.
  */
@@ -19,9 +19,10 @@ const rateLimit = require('express-rate-limit');
 // Define the rate limit options
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,  // 15 minutes expressed in milliseconds
-  max: 100,                  // Limit each IP to 100 requests per window (per 15 minutes)
-  message: 'Too many requests from this IP, please try again after 15 minutes',  // Custom error message when limit is exceeded
-  headers: true,             // Include rate limit headers in the response
+  max: 20,                  // Limit each IP to 20 requests per window (per 15 minutes)
+  message: { msg: 'Too many requests from this IP, please try again after 15 minutes' }, // Custom error message when limit is exceeded
+  standardHeaders: 'draft-7', // Send standard RateLimit / RateLimit-Policy headers
+  legacyHeaders: false,       // Don't send the older X-RateLimit-* headers
 });
 
 // Export the configured rate limiter for use in authentication routes
