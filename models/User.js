@@ -15,6 +15,9 @@
  * - isSubscribed: Boolean indicating if the user is subscribed to newsletters (default: false).
  * - rememberMe: Boolean indicating if the user opted to stay logged in (default: false).
  * - captchaToken: String token for CAPTCHA verification during registration (conditionally required).
+ * - passwordChangedAt: When the password was last changed (Date, optional).
+ * - resetPasswordTokenHash: SHA-256 hash of the pending reset token; the raw token is never stored (String, optional).
+ * - resetPasswordExpires: Expiry time of the pending reset token (Date, optional).
  */
 
 const mongoose = require('mongoose');  // Import Mongoose for schema creation
@@ -74,6 +77,19 @@ const userSchema = new mongoose.Schema({
       return this.isNew || this.isModified('captchaToken');
     },
   },
+  passwordChangedAt: {
+    type: Date,           // When the password was last changed; used later to reject older login tokens
+  },
+  resetPasswordTokenHash: {
+    type: String,
+    select: false,        // Never included in query results unless explicitly requested
+    index: true,          // Fast lookup when a reset link is used
+    sparse: true,         // Only index users who have a pending reset
+  },
+  resetPasswordExpires: {
+    type: Date,
+    select: false,        // Never included in query results unless explicitly requested
+  },
 });
 
 /**
@@ -81,16 +97,20 @@ const userSchema = new mongoose.Schema({
  * Hash the password before saving the user document if the password field is modified.
  * This ensures the user password is always stored securely in the database.
  */
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
   if (!this.isModified('password')) {
-    return next(); // Skip hashing if the password has not been modified
+    return; // Skip hashing if the password has not been modified
   }
-  
+
   // Generate a salt and hash the password using bcrypt
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 
-  next(); // Proceed to the next middleware or save operation
+  // Record when an existing user's password changes (not on registration).
+  // Subtract 1 second because JWT issue times are rounded to the second.
+  if (!this.isNew) {
+    this.passwordChangedAt = new Date(Date.now() - 1000);
+  }
 });
 
 /**

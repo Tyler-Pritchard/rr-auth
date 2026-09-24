@@ -5,16 +5,26 @@
 
 // Import necessary modules and utilities
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const { resetPasswordSchema, updatePasswordSchema } = require('../validation/schemas');
 const authLimiter = require('../middleware/authLimiter');
-const createTransporter = require('../utils/emailTransporter');
 const User = require('../models/User');
 const { verifyRecaptchaToken } = require('../utils/recaptcha');
 const logger = require('../utils/logger');
-const { hashPassword } = require('../utils/bcrypt');
+const crypto = require('crypto'); // Node built-in, for generating and hashing reset tokens
+const passwordResetLimiter = require('../middleware/passwordResetLimiter');
+const { sendEmail, buildPasswordResetEmail } = require('../utils/email');
 
 const router = express.Router(); // Create a new Express Router instance
+
+// Password reset settings
+const RESET_TOKEN_TTL_MINUTES = 30; // How long a reset link stays valid
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://robrich.band'; // Where reset links point
+const GENERIC_RESPONSE = {
+  msg: 'If an account exists for that email, a password reset link has been sent.',
+};
+
+// Hash a reset token with SHA-256; only the hash is stored in the database
+const hashToken = (token) => crypto.createHash('sha256').update(token).digest('hex');
 
 
 /**
@@ -22,8 +32,8 @@ const router = express.Router(); // Create a new Express Router instance
  * @desc    Send an email with a password reset link to the provided email address.
  * @access  Public
  */
-router.post('/forgot-password', authLimiter, async (req, res) => {
-  // Validate incoming request using Joi schema
+router.post('/forgot-password', passwordResetLimiter, async (req, res) => {
+  // Validate incoming request using Joi schema (also rejects a missing or empty captchaToken)
   const { error } = resetPasswordSchema.validate(req.body);
   if (error) {
     logger.info('Forgot Password validation failed', { error: error.details[0].message });
@@ -33,61 +43,56 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
   // Extract email and CAPTCHA token from the request body
   const { email, captchaToken } = req.body;
 
-  // Log the received email and CAPTCHA token for better debugging
-  logger.info('Received email and CAPTCHA token for forgot password', { email, captchaToken });
-
-  // Check if CAPTCHA token is defined and non-empty
-  if (!captchaToken || captchaToken.trim() === "") {
-    logger.error('CAPTCHA token is missing or empty', { email, captchaToken });
-    return res.status(400).json({ msg: 'CAPTCHA token is missing or empty' });
-  }
-
   try {
     // Verify reCAPTCHA token for additional security
     const recaptchaScore = await verifyRecaptchaToken(captchaToken, 'forgot_password');
-    logger.info('CAPTCHA verification during forgot password', { email, recaptchaScore });
 
     // Reject if CAPTCHA verification fails
     if (recaptchaScore === null || recaptchaScore < 0.5) {
-      logger.info('CAPTCHA verification failed for forgot password', { email });
+      logger.info('CAPTCHA verification failed for forgot password', { recaptchaScore });
       return res.status(400).json({ msg: 'CAPTCHA verification failed' });
     }
 
-    // Check if a user with the provided email exists in the database
-    let user = await User.findOne({ email }).maxTimeMS(5000); // Avoid long-running queries with maxTimeMS
+    // Look up the user
+    const user = await User.findOne({ email }).maxTimeMS(5000); // Avoid long-running queries with maxTimeMS
+
+    // Respond the same way whether or not the account exists, and before sending the email,
+    // so neither the message nor the response time reveals which emails are registered
+    res.json(GENERIC_RESPONSE);
+
     if (!user) {
-      logger.info('No account found for the provided email during forgot password', { email });
-      return res.status(400).json({ msg: 'No account with that email found' });
+      logger.info('Password reset requested for an email with no account');
+      return;
     }
 
-    // Generate a password reset token valid for 1 hour
-    const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    logger.info('Password reset token generated', { email, resetToken });
+    // Generate a random reset token and store only its hash, with an expiry.
+    // updateOne avoids re-validating the whole document (older users may lack newer fields).
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          resetPasswordTokenHash: hashToken(resetToken),
+          resetPasswordExpires: new Date(Date.now() + RESET_TOKEN_TTL_MINUTES * 60 * 1000),
+        },
+      }
+    );
 
-    // Construct the password reset URL to be sent in the email
-    const resetURL = `https://robrich.band/reset-password?token=${resetToken}`;
-
-    // Create the email transporter instance asynchronously
-    const transporter = await createTransporter();
-
-    // Define the email content and options
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: 'Password Reset Request',
-      text: `You requested a password reset. Please click the link to reset your password: ${resetURL}. This link is valid for 1 hour.`,
-      html: `<p>You requested a password reset.</p><p><a href="${resetURL}">Click here</a> to reset your password. This link is valid for 1 hour.</p>`,
-    };
-
-    // Send the email using the transporter
-    await transporter.sendMail(mailOptions);
-    logger.info('Password reset email sent', { email });
-
-    // Respond with a success message
-    res.json({ msg: 'Password reset email sent. Please check your inbox.' });
+    // Build and send the reset email (the raw token appears only in the emailed link)
+    const resetURL = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
+    const message = buildPasswordResetEmail({
+      firstName: user.firstName,
+      resetURL,
+      expiresInMinutes: RESET_TOKEN_TTL_MINUTES,
+    });
+    const result = await sendEmail({ to: user.email, ...message });
+    logger.info('Password reset email sent', { userId: user.id, messageId: result.id });
   } catch (err) {
     logger.error('Server error during forgot password operation', { error: err.message });
-    res.status(500).send('Server Error');
+    // If the generic response already went out, the client is unaffected; only log the error
+    if (!res.headersSent) {
+      res.status(500).json({ msg: 'Server Error' });
+    }
   }
 });
   
@@ -98,52 +103,45 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
  * @access  Public
  */
 router.post('/reset-password', authLimiter, async (req, res) => {
-  // Validate incoming request using Joi schema
+  // Validate incoming request using Joi schema (requires token and newPassword)
   const { error } = updatePasswordSchema.validate(req.body);
   if (error) {
     logger.info('Reset Password validation failed', { error: error.details[0].message });
     return res.status(400).json({ msg: error.details[0].message });
   }
 
-  // Extract the reset token from the request body or headers
-  const token = req.body.token || req.headers['reset-token'];
-  logger.info('Received reset-password request', { token });
-
-  // If the token is missing, send an error response
-  if (!token) {
-    logger.info('Reset token is missing from the request');
-    return res.status(400).json({ msg: 'Token missing' });
-  }
+  // Extract the reset token and new password from the request body
+  const { token, newPassword } = req.body;
 
   try {
-    // Verify the reset token to decode the user ID
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    logger.info('JWT token successfully decoded for reset password', { decoded });
+    // Atomically claim the token: find a user with a matching, unexpired token hash and
+    // clear the token in the same operation, so the link can never be used twice
+    const user = await User.findOneAndUpdate(
+      {
+        resetPasswordTokenHash: hashToken(token),
+        resetPasswordExpires: { $gt: new Date() },
+      },
+      { $unset: { resetPasswordTokenHash: 1, resetPasswordExpires: 1 } },
+      { new: true }
+    ).maxTimeMS(5000); // Avoid long-running queries with maxTimeMS
 
-    // Retrieve the user by ID from the decoded token
-    let user = await User.findById(decoded.id);
     if (!user) {
-      logger.info('Invalid token, user not found');
-      return res.status(400).json({ msg: 'Invalid token' });
+      logger.info('Password reset attempted with an invalid or expired token');
+      return res.status(400).json({ msg: 'This reset link is invalid or has expired' });
     }
 
-    // Extract the new password from the request body
-    const { newPassword } = req.body;
-    logger.info('Plain new password received for reset', { userId: user.id });
-
-    // Hash the new password using bcrypt and update the user's password field
-    user.password = await hashPassword(newPassword);
-    logger.info('New password hashed successfully', { userId: user.id });
-
-    // Save the updated user object in the database
+    // Assign the PLAIN password; the User pre-save hook hashes it exactly once
+    // and records passwordChangedAt
+    user.password = newPassword;
     await user.save();
+
+    logger.info('Password reset completed successfully', { userId: user.id });
 
     // Respond with a success message
     res.json({ msg: 'Password reset successful' });
-    logger.info('Password reset completed successfully', { userId: user.id });
   } catch (err) {
     logger.error('Server error during password reset operation', { error: err.message });
-    res.status(500).send('Server Error');
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
