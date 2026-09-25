@@ -1,0 +1,45 @@
+.
+├── Dockerfile
+├── LICENSE
+├── License.md
+├── README.md
+├── Untitled 3.txt
+├── __tests__
+│   └── userRoutes.test.js
+├── app_logo.jpg
+├── docker-compose.yml
+├── file_tree.txt
+├── gcloud-credentials.json
+├── logs
+│   ├── combined.log
+│   └── error.log
+├── middleware
+│   ├── authLimiter.js
+│   └── passwordResetLimiter.js
+├── models
+│   └── User.js
+├── package-lock.json
+├── package.json
+├── routes
+│   ├── authRoutes.js
+│   ├── mockCaptcha.js
+│   ├── passwordRoutes.js
+│   └── userRoutes.js
+├── rr-auth-1725047695006-5dc7c99426ff.json
+├── rr-auth-config.yaml
+├── rr-auth-deployment.yaml
+├── rr-auth-ingress.yaml
+├── rr-auth-secret.yaml
+├── rr-auth-service.yaml
+├── rr-auth_file_tree.txt
+├── secrets.env
+├── server.js
+├── utils
+│   ├── bcrypt.js
+│   ├── email.js
+│   ├── logger.js
+│   └── recaptcha.js
+└── validation
+    └── schemas.js
+
+8 directories, 35 files

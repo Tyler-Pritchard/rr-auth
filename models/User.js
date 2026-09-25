@@ -66,6 +66,13 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,       // Default value set to `false`
   },
+  roles: {
+    type: [{
+      type: String,
+      enum: ['admin', 'tour_manager', 'merch_manager', 'content_manager'],
+    }],
+    default: [],          // Regular fans have no roles
+  },
   rememberMe: {
     type: Boolean,
     default: false,       // Default value set to `false`
