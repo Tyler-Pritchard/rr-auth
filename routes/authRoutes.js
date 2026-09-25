@@ -15,6 +15,13 @@ const logger = require('../utils/logger');
 
 const router = express.Router(); // Create a new Express Router instance
 
+const { permissionsForRoles } = require('../config/permissions');
+
+// Standard JWT claims identifying who issued the token and who it's meant for.
+// Other services can verify these once they're updated; for now they're informational.
+const JWT_ISSUER = process.env.JWT_ISSUER || 'rr-auth';
+const JWT_AUDIENCE = process.env.JWT_AUDIENCE || 'rr-api';
+
 /**
  * @route   POST /api/auth/login
  * @desc    Authenticate user and generate JWT token upon successful login.
@@ -62,25 +69,32 @@ router.post('/login', authLimiter, async (req, res) => {
       return res.status(400).json({ msg: 'Incorrect email or password' });
     }
 
-    // Create a payload for JWT that includes the user's ID
+    // Work out what this user is allowed to do
+    const roles = [...(user.roles || [])];
+    const permissions = permissionsForRoles(roles);
+
     const payload = {
-      user: {
-        id: user.id
-      }
+      user: { id: user.id },          // Legacy shape; rrsite and other services may still read this
+      roles,                          // Job titles, for display (e.g. showing "Admin" in the UI)
+      scope: permissions.join(' '),   // Space-separated permissions; what services should check
     };
 
-    // Determine JWT expiration based on 'rememberMe' flag
-    const expiresIn = rememberMe ? '30d' : '1h'; // 30 days if 'rememberMe' is true, otherwise 1 hour
+    // "Remember me" only applies to users without write permissions. Anyone who can
+    // change site data gets a 1-hour token, so removing their role takes effect quickly.
+    const hasWritePermissions = permissions.length > 0;
+    const expiresIn = rememberMe && !hasWritePermissions ? '30d' : '1h';
 
-    // Sign the JWT token with the secret key and specified expiration time
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn }, (err, token) => {
-      if (err) {
-        logger.error('Error signing JWT during login', { error: err });
-        throw err;
-      }
-      logger.info('User successfully logged in', { email });
-      res.status(200).json({ msg: 'Login successful', token });
+    // Synchronous sign: any error is thrown here and caught by the catch block below,
+    // instead of crashing the process from inside a callback
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn,
+      subject: String(user.id),       // Standard "sub" claim: who the token is about
+      issuer: JWT_ISSUER,
+      audience: JWT_AUDIENCE,
     });
+
+    logger.info('User successfully logged in', { email, roles, expiresIn });
+    return res.status(200).json({ msg: 'Login successful', token });
   } catch (err) {
     logger.error('Server error during login', { error: err.message });
     res.status(500).send('Server Error');
