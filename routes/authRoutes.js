@@ -50,7 +50,7 @@ router.post('/login', authLimiter, async (req, res) => {
     }
 
     // Log the presence of the user and the stored password hash for debugging
-    logger.info('User found during login', { email, storedHash: user.password });
+    logger.info('User found during login', { email });
 
     // Compare the plain text password with the stored hashed password
     const isMatch = await comparePassword(password, user.password);
@@ -78,7 +78,7 @@ router.post('/login', authLimiter, async (req, res) => {
         logger.error('Error signing JWT during login', { error: err });
         throw err;
       }
-      logger.info('User successfully logged in', { email, token });
+      logger.info('User successfully logged in', { email });
       res.status(200).json({ msg: 'Login successful', token });
     });
   } catch (err) {
