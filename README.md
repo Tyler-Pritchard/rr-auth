@@ -40,21 +40,21 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
 - User Registration: Securely register new users with email and password.
 - CAPTCHA Verification: Validate users using Google reCAPTCHA.
 - Login & JWT Authentication: Authenticate users and generate JWT tokens.
-- Password Reset: Allow users to reset passwords using email tokens.
-- Rate Limiting: Protect API routes with rate limiting to prevent abuse.
-- Email Service: Send password reset links via email.
+- Password Reset: Single-use, 30-minute reset links. Tokens are random, stored only as SHA-256 hashes, and invalidated on use.
+- Rate Limiting: Global limit plus stricter limits on login, registration, and password reset requests.
+- Email Service: Transactional email via the Resend HTTPS API.
 - MongoDB: Store user data securely in MongoDB.
 - JWT Token Expiration: Supports 'remember me' functionality for longer token expiration.
 
 ## Technologies Used
-- **Node.js**: JavaScript runtime for building scalable network applications.
+- **Node.js 24**: JavaScript runtime (LTS).
 - **Express**: Minimalist web framework for Node.js.
 - **MongoDB**: NoSQL database for storing user data.
 - **Mongoose**: ODM for MongoDB, providing a schema-based solution.
 - **bcryptjs**: Library for hashing passwords.
 - **JWT**: Standard for securely transmitting information between parties as a JSON object.
 - **Google reCAPTCHA**: Service to protect your website from spam and abuse.
-- **Nodemailer**: Email handling for sending password reset links.
+- **Resend**: Transactional email API for password reset emails (HTTPS, no SMTP).
 - **Helmet**: Security middleware for HTTP headers.
 - **Express Rate Limit**: Protection from brute-force attacks.
 - **Winston**: Logging for application events.
@@ -62,10 +62,10 @@ RR-Auth is a user authentication and authorization microservice for the Rob Rich
 ## Installation
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) installed on your local machine.
+- [Node.js 24](https://nodejs.org/) (an `.nvmrc` is included; run `nvm use`).
 - [MongoDB](https://www.mongodb.com/) Atlas account for cloud-based MongoDB, or a locally running MongoDB instance.
 - [Google reCAPTCHA](https://www.google.com/recaptcha/) account.
-- Set up an SMTP email service (e.g., Gmail) for sending password reset emails.
+- A [Resend](https://resend.com/) account with a verified sending domain (optional for local development; see below).
 
 ### Steps
 1. Clone the repository:
@@ -80,8 +80,9 @@ npm install
 3. Create a `.env` file in the root directory and add your environment variables (see [Configuration](#configuration)).
 4. Start the server:
 ```
-npx nodemon server.js
+npm run dev
 ```
+
 The server will start on `http://localhost:5000`.
 
 ## Configuration
@@ -89,14 +90,17 @@ The server will start on `http://localhost:5000`.
 ### Environment Variables
 In your `.env` file, include the following variables:
 ```
-MONGO_URI=mongodb+srv://your_mongo_uri
-RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
-RECAPTCHA_SITE_KEY=your_recaptcha_site_key
-JWT_SECRET=your_jwt_secret_key
+NODE_ENV=development
 PORT=5000
-EMAIL_USER=your_email_address
-EMAIL_PASSWORD=your_email_password
+MONGO_URI=mongodb+srv://your_mongo_uri
+JWT_SECRET=your_jwt_secret_key
+RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
+GOOGLE_APPLICATION_CREDENTIALS_BASE64=base64_encoded_service_account_json
+FRONTEND_URL=http://localhost:3000
+RESEND_API_KEY=your_resend_api_key
+EMAIL_FROM="Your Name <no-reply@mail.yourdomain.com>"
 ```
+In development, if `RESEND_API_KEY` is not set, reset emails are printed to the console instead of sent, so the full reset flow can be tested without an email provider.
 
 ## API Endpoints
 
@@ -140,6 +144,7 @@ EMAIL_PASSWORD=your_email_password
   "captchaToken": "your_recaptcha_token"
 }
 ```
+- Response: Always returns the same success message whether or not the account exists, to prevent account enumeration. Limited to 5 requests per 15 minutes per IP.
 
 ### Reset Password
 - Endpoint: `/api/password/reset-password`
@@ -151,6 +156,7 @@ EMAIL_PASSWORD=your_email_password
   "newPassword": "newsecurepassword123"
 }
 ```
+- Response: `400` with "This reset link is invalid or has expired" if the token is unknown, expired, or already used.
 
 ### User Count
 - Endpoint: `/api/users/count`
@@ -158,10 +164,13 @@ EMAIL_PASSWORD=your_email_password
 - Description: Returns the total number of registered users.
 
 ## Security
-- Password Hashing: Passwords are hashed using bcrypt before being stored.
-- JWT Authentication: Token-based authentication is implemented with configurable expiration.
-- CAPTCHA Verification: Google reCAPTCHA is used to prevent bot attacks on registration and login routes.
-- Rate Limiting: Requests to sensitive endpoints are rate-limited to prevent abuse.
+- Password Hashing: Passwords are hashed with bcrypt in a single Mongoose pre-save hook.
+- JWT Authentication: Token-based authentication with configurable expiration ("remember me").
+- Secure Password Reset: Random 256-bit tokens, stored as SHA-256 hashes, single-use (claimed atomically), and expiring after 30 minutes.
+- Account Enumeration Protection: Forgot-password responds identically, and before sending email, regardless of whether the account exists.
+- CAPTCHA Verification: reCAPTCHA Enterprise on registration, login, and forgot-password.
+- Rate Limiting: 20 requests / 15 min on auth routes, 5 / 15 min on reset requests, plus a global limit.
+<!-- - Sensitive Data Handling: Reset tokens and passwords are never logged. -->
 
 ## Testing
 This project uses `Jest` for testing. To run the tests:
@@ -170,8 +179,8 @@ npm test
 ```
 
 ### Test Features
-- In-memory MongoDB for isolated testing.
-- Unit tests for registration, login, and user count routes.
+- In-memory MongoDB (mongodb-memory-server) for isolated testing.
+- Route tests for user registration and user count (being expanded to cover login and password reset).
 
 ## Running with Docker
 
@@ -244,8 +253,7 @@ kubectl get svc -l app=rr-auth
 
 ### Health Check Endpoints
 RR-Auth exposes Kubernetes-ready endpoints:
-- `/health` for general health
-- `/api/auth/health` for service-specific status
+- `/health` for service health (via the rr-gateway, this is exposed as `/api/auth/health`)
 
 ---
 
